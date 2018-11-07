@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "275345121792",
+    "firebase_url": "https://cytech-bible.firebaseio.com",
+    "project_id": "cytech-bible",
+    "storage_bucket": "cytech-bible.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275345121792:android:5db9f0fb80082409",
+        "android_client_info": {
+          "package_name": "com.cytech.bible"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275345121792-tdf4qoktr3brh88ggi9qertc5qdgslnr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cytech.bible",
+            "certificate_hash": "45fbc655ba04feee5a4ebb2bc38a144af06f9235"
+          }
+        },
+        {
+          "client_id": "275345121792-9inn2d0mgiddbngmragmk787nbevucr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP2VQSXURGKwqqNiED2sJqcjvMd7ixQYo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275345121792-9inn2d0mgiddbngmragmk787nbevucr0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
