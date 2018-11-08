@@ -3,9 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "draft-js": "^0.10.5",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "react-scripts": "2.1.1"
+    "react-mde": "6.0.0-alpha.1",
+    "react-render-html": "^0.6.0",
+    "react-scripts": "2.1.1",
+    "showdown": "^1.8.7"
   },
   "scripts": {
     "start": "react-scripts start",
