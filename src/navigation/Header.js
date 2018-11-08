@@ -27,7 +27,7 @@ class Header extends Component {
     }
 
     render() {
-        const {scene, theme, data} = this.props;
+        const {scene, theme, navigation} = this.props;
         scene.descriptor.options.headerStyle = {
             ...scene.descriptor.options.headerStyle,
             backgroundColor: theme.palette.backgroundPrimary,
@@ -41,6 +41,10 @@ class Header extends Component {
                 <IconButton
                     onPress={theme.doToggleTheme}
                     icon={theme.light ? 'weather-night' : 'weather-sunny'} iconComponent={'material-community'} flat/>
+                <Spacer/>
+                <IconButton
+                    onPress={() => navigation.navigate(Routes.About)}
+                    icon={'information'} iconComponent={'material-community'} flat/>
                 <Spacer/>
             </Box>
         )

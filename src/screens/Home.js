@@ -19,7 +19,15 @@ class Home extends React.Component {
         FireBase.analytics().logEvent(Events.SessionStart)
         FireBase.analytics().logEvent(Events.OpenHome)
 
-        this.props.navigation.navigate(Routes.Bible)
+        // this.props.navigation.navigate(Routes.About)
+
+        this.notificationOpenedListener = FireBase.notifications().onNotificationOpened(({notification}) => {
+            const {data} = notification
+            if (data.daily) {
+                this._doOpenDaily()
+            }
+            FireBase.notifications().removeDeliveredNotification('daily')
+        });
     }
 
     _doOpenDaily = () => {
@@ -32,51 +40,50 @@ class Home extends React.Component {
 
     componentWillUnmount() {
         FireBase.analytics().logEvent(Events.SessionEnd)
+        this.notificationOpenedListener()
     }
 
     render() {
         const {data, theme} = this.props
         const {styles} = theme
 
-        const {daily} = data
-
         return (
             <Box secondary fit column>
                 <Loading active={data.dailyLoading} size={56}>
                     <Box scroll>
                         <Box column fit padding>
-                            {
-                                !!daily && (
-                                    <Box fit paper primary>
-                                        <Touchable primary onPress={this._doOpenDaily}>
-                                            <Box column fit>
-                                                <Box padding centralize color={theme.palette.primary}
-                                                     style={styles.cardMedia}>
-                                                    <LineIcon size={96} color={theme.palette.primaryText}
-                                                              name={'eyeglass'}/>
-                                                </Box>
-                                                <Box padding>
-                                                    <Text size={20}>Oração do dia</Text>
-                                                </Box>
-                                            </Box>
-                                        </Touchable>
+                            <Box fit paper primary>
+                                <Touchable onPress={this._doOpenDaily} primary>
+                                    <Box padding centralize
+                                         column fit
+                                         style={styles.cardMedia}>
+                                        <Spacer vertical large/>
+                                        <LineIcon size={96} color={theme.palette.primary}
+                                                  name={'eyeglass'}/>
+                                        <Spacer vertical large/>
+                                        <Text size={20} color={theme.palette.primary}>
+                                            Oração diária
+                                        </Text>
+                                        <Spacer vertical large/>
                                     </Box>
-                                )
-                            }
+                                </Touchable>
+                            </Box>
 
                             <Spacer vertical large/>
 
                             <Box fit paper primary>
-                                <Touchable primary onPress={this._doOpenBible}>
-                                    <Box column fit>
-                                        <Box padding centralize color={theme.palette.primary}
-                                             style={styles.cardMedia}>
-                                            <LineIcon size={96} color={theme.palette.primaryText}
-                                                      name={'book-open'}/>
-                                        </Box>
-                                        <Box padding>
-                                            <Text size={20}>Bíblia</Text>
-                                        </Box>
+                                <Touchable onPress={this._doOpenBible} primary>
+                                    <Box padding centralize
+                                         column fit
+                                         style={styles.cardMedia}>
+                                        <Spacer vertical large/>
+                                        <LineIcon size={96} color={theme.palette.primary}
+                                                  name={'book-open'}/>
+                                        <Spacer vertical large/>
+                                        <Text size={20} color={theme.palette.primary}>
+                                            Bíblia Sagrada
+                                        </Text>
+                                        <Spacer vertical large/>
                                     </Box>
                                 </Touchable>
                             </Box>
@@ -90,7 +97,7 @@ class Home extends React.Component {
 
 const styles = theme => StyleSheet.create({
     cardMedia: {
-        opacity: .8,
+        borderRadius: theme.metrics.borderRadius,
         borderTopLeftRadius: theme.metrics.borderRadius,
         borderTopRightRadius: theme.metrics.borderRadius,
     }

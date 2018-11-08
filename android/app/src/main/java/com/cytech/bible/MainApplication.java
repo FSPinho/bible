@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import com.pilloxa.backgroundjob.BackgroundJobPackage;
+import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -36,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new TextToSpeechPackage(),
                     new SplashScreenReactPackage(),
                     new RNFetchBlobPackage(),
                     new RNGoogleSigninPackage(),
@@ -46,7 +49,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFirebaseMessagingPackage(),
                     new RNFirebaseNotificationsPackage(),
                     new RNFirebaseFirestorePackage(),
-                    new RNFirebaseAdMobPackage()
+                    new RNFirebaseAdMobPackage(),
+                    new BackgroundJobPackage()
             );
         }
 

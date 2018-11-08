@@ -67,8 +67,6 @@ class SnowFlake extends React.Component {
                 }}>
 
                 <Box>
-                    <Image style={{width: size, height: size}}
-                           source={require('../resources/images/snowflake.png')}/>
                 </Box>
 
             </Animated.View>
@@ -92,20 +90,20 @@ class Snow extends React.Component {
             <Box fit column>
                 {children}
 
-                <Box paddingSmall primary centralize style={{borderRadius: 0, elevation: 8}}>
+                {true && <Box paddingSmall primary centralize style={{borderRadius: 0, elevation: 8}}>
                     <Box fitAbsolute centralize>
                         <Text>Carregando...</Text>
                     </Box>
                     <TouchableWithoutFeedback
-                        onPress={() => FireBase.analytics().logEvent(Events.LetterGeneralBannerClicked)}>
+                        onPress={() => FireBase.analytics().logEvent(Events.GeneralBannerClicked)}>
                         <Banner
                             size={"BANNER"}
-                            onAdFailedToLoad={() => FireBase.analytics().logEvent(Events.LetterGeneralBannerError)}
-                            onAdLoaded={() => FireBase.analytics().logEvent(Events.LetterGeneralBannerLoaded)}
-                            unitId={__DEV__ ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-5594222713152935/7148359605'}
+                            onAdFailedToLoad={() => FireBase.analytics().logEvent(Events.GeneralBannerError)}
+                            onAdLoaded={() => FireBase.analytics().logEvent(Events.GeneralBannerLoaded)}
+                            unitId={__DEV__ ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-5594222713152935/4232515673'}
                         />
                     </TouchableWithoutFeedback>
-                </Box>
+                </Box>}
 
                 <Box fitAbsolute pointerEvents={'none'}>
                     {snows.map(s => <SnowFlake key={s} index={s}/>)}

@@ -217,7 +217,7 @@ const styles = theme => StyleSheet.create({
     paper: {
         backgroundColor: theme.palette.backgroundPrimary,
         borderRadius: theme.metrics.borderRadius,
-        elevation: 0,
+        elevation: 2,
     },
     rounded: {
         borderRadius: theme.metrics.borderRadius,

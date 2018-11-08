@@ -28,9 +28,6 @@ class Bible extends React.Component {
 
     render() {
         const {data, theme} = this.props
-        const {styles} = theme
-
-        const {daily} = data
 
         return (
             <Box secondary fit column>
@@ -44,17 +41,16 @@ class Bible extends React.Component {
                                             <Text secondary>LIVROS DO {t.title}</Text>
                                         </Box>
                                         <Line/>
-                                        <Box fit paddingSmall column>
-                                            {t.books.map((b, i) => [
-                                                    <Box fit primary column key={'0_' + i}>
-                                                        <Touchable onPress={() => this._doOpenBook(b)} primary>
-                                                            <Box fit paddingSmall key={i} primary>
-                                                                <Text>{b.title}</Text>
-                                                            </Box>
-                                                        </Touchable>
-                                                    </Box>,
-                                                    <Spacer vertical large key={'1_' + i}/>
-                                                ]
+                                        <Box fit column>
+                                            {t.books.map((b, i) =>
+                                                <Box fit primary column key={'0_' + i}
+                                                     style={{borderRadius: theme.metrics.borderRadius}}>
+                                                    <Touchable onPress={() => this._doOpenBook(b)} primary>
+                                                        <Box fit padding key={i}>
+                                                            <Text>{b.title}</Text>
+                                                        </Box>
+                                                    </Touchable>
+                                                </Box>
                                             )}
                                         </Box>
                                     </Box>

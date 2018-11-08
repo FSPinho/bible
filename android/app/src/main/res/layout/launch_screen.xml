@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:weightSum="1"
-    android:background="#FFFFFF">
+    android:background="@color/primary_dark">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -16,7 +16,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical">
-
 
         <ImageView
             android:layout_width="192dp"
@@ -28,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/app_name"
-            android:textColor="@color/primary_dark"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -46,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Feito com amor pela"
-            android:textColor="@color/primary_dark"
+            android:textColor="#FFFFFF"
             android:textSize="10sp"
             android:textStyle="bold" />
 
@@ -54,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CYTECH"
-            android:textColor="@color/primary_dark"
+            android:textColor="#FFFFFF"
             android:textSize="28sp"
             android:textStyle="bold" />
 
@@ -62,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SOLUÇÕES TECNOLÓGICAS"
-            android:textColor="@color/primary_dark"
+            android:textColor="#FFFFFF"
             android:textSize="10sp"
             android:textStyle="bold" />
 

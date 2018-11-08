@@ -22,6 +22,7 @@ class Text extends React.Component {
             secondary,
             disabled,
             fit,
+            family,
             ...props
         } = this.props
 
@@ -38,6 +39,7 @@ class Text extends React.Component {
             ),
             textAlign: center ? 'center' : 'left',
             opacity: secondary ? 0.7 : 1,
+            fontFamily: family || 'Roboto-Regular'
         }, fit ? {flex: 1} : undefined, style]} {...props} />
     }
 }
@@ -46,6 +48,7 @@ Text.propTypes = {
     size: PropTypes.number,
     color: PropTypes.string,
     weight: PropTypes.string,
+    family: PropTypes.string,
     thin: PropTypes.bool,
     light: PropTypes.bool,
     medium: PropTypes.bool,

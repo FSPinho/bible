@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withTheme} from "../theme";
 import {createStackNavigator} from "react-navigation";
-import {Home, Daily, Bible, BibleBook} from "../screens";
+import {Home, Daily, Bible, BibleBook, About} from "../screens";
 import Header from "./Header";
 import HeaderTitle from "./HeaderTitle";
 
@@ -10,6 +10,7 @@ export const Routes = {
     Daily: 'DAILY',
     Bible: 'BIBLE',
     BibleBook: 'BIBLE_BOOK',
+    About: 'ABOUT',
 }
 
 class RootNavigation extends Component {
@@ -23,7 +24,9 @@ class RootNavigation extends Component {
         this.Nav = createStackNavigator({
             [Routes.Home]: {
                 screen: Home,
-                navigationOptions: {headerTitle: <HeaderTitle text={'Oração Diária & Bíblia Sagrada'}/>, ...stackOptions}
+                navigationOptions: {
+                    headerTitle: <HeaderTitle text={'Oração Diária & Bíblia Sagrada'}/>, ...stackOptions
+                }
             },
             [Routes.Daily]: {
                 screen: Daily,
@@ -35,7 +38,13 @@ class RootNavigation extends Component {
             },
             [Routes.BibleBook]: {
                 screen: BibleBook,
-                navigationOptions: {headerTitle: <HeaderTitle text={'Bíblia Sagrada'}/>, ...stackOptions}
+                navigationOptions: ({navigation}) => ({
+                    headerTitle: <HeaderTitle text={navigation.getParam('book').title}/>, ...stackOptions
+                })
+            },
+            [Routes.About]: {
+                screen: About,
+                navigationOptions: {headerTitle: <HeaderTitle text={'Quem somos'}/>, ...stackOptions}
             }
         }, {navigationOptions: stackOptions})
     }

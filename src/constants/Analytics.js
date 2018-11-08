@@ -20,7 +20,9 @@ export const Events = {
      * */
     ThemeEnableLight: 'bi_theme_enable_light',
     ThemeEnableDark: 'bi_theme_enable_dark',
-    LetterGeneralBannerLoaded: 'bi_general_banner_loaded',
-    LetterGeneralBannerError: 'bi_general_banner_error',
-    LetterGeneralBannerClicked: 'bi_general_banner_clicked',
+    GeneralBannerLoaded: 'bi_general_banner_loaded',
+    GeneralBannerError: 'bi_general_banner_error',
+    GeneralBannerClicked: 'bi_general_banner_clicked',
+    PlayChapter: 'bi_play_chapter',
+    PlayDaily: 'bi_play_daily',
 }

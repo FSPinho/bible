@@ -151,6 +151,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-background-job')
+    implementation project(':react-native-tts')
     implementation project(':react-native-splash-screen')
     implementation project(':rn-fetch-blob')
     implementation project(':react-native-vector-icons')
