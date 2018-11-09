@@ -10,7 +10,8 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: "**Hello world!!!**"
+            value: "**Hello world!!!**",
+            key: 0
         };
         this.converter = new Showdown.Converter({
             tables: true,
@@ -20,8 +21,8 @@ export default class App extends React.Component {
         });
     }
 
-    handleValueChange = (value: string) => {
-        this.setState({value});
+    handleValueChange = (value) => {
+        this.setState({value: value.replace(/\\n/g, '\n')});
     };
 
     render() {
@@ -29,16 +30,20 @@ export default class App extends React.Component {
             <div style={styles.page}>
                 <div style={styles.box}>
                     <ReactMde
+                        key={this.state.key}
                         style={styles.flex}
                         onChange={this.handleValueChange}
-                        value={this.state.value}
+                        value={this.state.value.replace(/\\n/g, '\n')}
                         minEditorHeight={480}
                         generateMarkdownPreview={markdown =>
                             Promise.resolve(this.converter.makeHtml(markdown))
                         }
                     />
+                    <button onClick={() => this.setState({key: this.state.key + 1})}>Update</button>
                     <div style={{...styles.flex, ...styles.box}}>
-                        {renderHTML(this.converter.makeHtml(this.state.value))}
+                        <div>
+                            {renderHTML(this.converter.makeHtml(this.state.value))}
+                        </div>
                     </div>
                 </div>
                 <textarea value={this.state.value.replace(/\n/g, '\\n')} rows={10}/>
@@ -60,7 +65,7 @@ const styles = {
     },
     box: {
         display: 'flex',
-        flexDirection: 'row',
+        flexDirection: 'column',
         padding: 16
     },
     flex: {
