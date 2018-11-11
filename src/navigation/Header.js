@@ -37,15 +37,23 @@ class Header extends Component {
         scene.descriptor.options.headerTintColor = theme.palette.backgroundPrimaryTextPrimary
 
         scene.descriptor.options.headerRight = (
-            <Box centralize>
-                <IconButton
-                    onPress={theme.doToggleTheme}
-                    icon={theme.light ? 'weather-night' : 'weather-sunny'} iconComponent={'material-community'} flat/>
-                <Spacer/>
-                <IconButton
-                    onPress={() => navigation.navigate(Routes.About)}
-                    icon={'information'} iconComponent={'material-community'} flat/>
-                <Spacer/>
+            <Box>
+				<Box fit>
+	                <IconButton
+	                    onPress={theme.doToggleTheme}
+	                    icon={theme.light ? 'weather-night' : 'weather-sunny'}
+						iconComponent={'material-community'} flat/>
+				</Box>
+				<Box>
+					<Spacer/>
+				</Box>
+				<Box>
+	                <IconButton
+	                    onPress={() => navigation.navigate(Routes.About)}
+	                    icon={'information'}
+						iconComponent={'material-community'} flat/>
+	                <Spacer/>
+				</Box>
             </Box>
         )
 

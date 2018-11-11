@@ -53,7 +53,7 @@ class DataProvider extends Component {
     }
 
     componentWillUnmount() {
-        Object.map(this.unsubscribers).map(k => this.unsubscribers[k]())
+        Object.keys(this.unsubscribers).map(k => this.unsubscribers[k]())
     }
 
     asyncSetState = async state =>

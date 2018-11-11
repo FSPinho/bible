@@ -82,14 +82,6 @@ class BibleBookChapterInner extends React.PureComponent {
                                 numberOfLines={1}
                                 secondary>Capítulo {c.index}</Text>
                         </Box>
-                        {(!!canPlay && playing) && (
-                            <Button flat onPress={() => TextToSpeech.stop()}>
-                                <Text>PARAR</Text>
-                                <Spacer/>
-                                <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
-                                          name={'volume-off'} size={24}/>
-                            </Button>
-                        )}
                     </Box>
                     <Box fit column>
                         {this._renderVersicles()}
@@ -210,15 +202,17 @@ class BibleBook extends React.Component {
                     <Box fit column>
                         <Box primary column style={{elevation: 2}}>
                             <ScrollView ref="scroll" horizontal showsHorizontalScrollIndicator={false}>
-                                <Box fit paddingSmall centralize>
+                                <Box paddingSmall>
                                     <Box paddingSmall centralize>
                                         <Text>Capítulos</Text>
                                     </Box>
                                     <Spacer large/>
                                     {this.book.chapters.map((c, i) =>
-                                        <Button key={i}
-                                                onPress={() => this._doSelectChapter(i)}
-                                                primary={currentChapter === i}>{c.index}</Button>
+										<Box>
+	                                        <Button key={i}
+	                                                onPress={() => this._doSelectChapter(i)}
+	                                                primary={currentChapter === i}>{c.index}</Button>
+										</Box>
                                     )}
                                     <Spacer/>
                                 </Box>
@@ -234,6 +228,25 @@ class BibleBook extends React.Component {
                         </Box>
                     </Box>
                 </Loading>
+
+                {(!!canPlay && playingIndex !== -1) && (
+                    <Box
+                        primary
+                        paper
+                        style={{
+                            position: 'absolute',
+                            bottom: 16,
+                            right: 16,
+                            borderRadius: 192,
+                        }}>
+                        <Button primary onPress={() => TextToSpeech.stop()}>
+                            <Text color={this.props.theme.palette.primaryText}>PARAR</Text>
+                            <Spacer/>
+                            <LineIcon color={this.props.theme.palette.primaryText}
+                                      name={'volume-off'} size={24}/>
+                        </Button>
+                    </Box>
+                )}
             </Box>
         )
     }

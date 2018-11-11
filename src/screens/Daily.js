@@ -47,6 +47,10 @@ class Daily extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        TextToSpeech.stop()
+    }
+
     async componentWillReceiveProps(props) {
         if (this.props.data.daily) {
             FireBase.analytics().logEvent(Events.OpenDaily, {
