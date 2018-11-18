@@ -6,6 +6,15 @@ export const Events = {
     OpenDaily: 'bi_navigate_to_daily',
     OpenBible: 'bi_navigate_to_bible',
     OpenBibleBook: 'bi_navigate_to_bible_book',
+    OpenStories: 'bi_navigate_stories',
+    OpenStory: 'bi_navigate_story',
+    OpenParables: 'bi_navigate_parables',
+    OpenParable: 'bi_navigate_parables',
+    OpenArticles: 'bi_navigate_articles',
+    OpenArticle: 'bi_navigate_article',
+
+    OpenShare: 'bi_navigate_share',
+    OpenEvaluate: 'bi_navigate_evaluate',
 
     /**
      * Auth and sessions

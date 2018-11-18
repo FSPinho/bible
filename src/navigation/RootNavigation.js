@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {withTheme} from "../theme";
 import {createStackNavigator} from "react-navigation";
-import {Home, Daily, Bible, BibleBook, About} from "../screens";
+import {Home, Daily, Bible, BibleBook, About, Stories, Story, Parables, Parable, Articles, Article} from "../screens";
 import Header from "./Header";
 import HeaderTitle from "./HeaderTitle";
 
@@ -11,6 +11,12 @@ export const Routes = {
     Bible: 'BIBLE',
     BibleBook: 'BIBLE_BOOK',
     About: 'ABOUT',
+    Stories: 'STORIES',
+    Story: 'STORY',
+    Parables: 'PARABLES',
+    Parable: 'PARABLE',
+    Articles: 'ARTICLES',
+    Article: 'ARTICLE',
 }
 
 class RootNavigation extends Component {
@@ -45,7 +51,39 @@ class RootNavigation extends Component {
             [Routes.About]: {
                 screen: About,
                 navigationOptions: {headerTitle: <HeaderTitle text={'Quem somos'}/>, ...stackOptions}
-            }
+            },
+            [Routes.Stories]: {
+                screen: Stories,
+                navigationOptions: {headerTitle: <HeaderTitle text={'Histórias Bíblicas'}/>, ...stackOptions}
+            },
+            [Routes.Story]: {
+                screen: Story,
+                navigationOptions: ({navigation}) => ({
+                    headerTitle: <HeaderTitle text={navigation.getParam('story').title}/>, ...stackOptions
+                })
+            },
+            [Routes.Parables]: {
+                screen: Parables,
+                navigationOptions: {headerTitle: <HeaderTitle text={'Parábolas'}/>, ...stackOptions}
+            },
+            [Routes.Parable]: {
+                screen: Parable,
+                navigationOptions: ({navigation}) => ({
+                    headerTitle: <HeaderTitle text={navigation.getParam('parable').title}/>, ...stackOptions
+                })
+            },
+            [Routes.Articles]: {
+                screen: Articles,
+                navigationOptions:{
+                    headerTitle: <HeaderTitle text={'Histórias Reais'}/>, ...stackOptions
+                }
+            },
+            [Routes.Article]: {
+                screen: Article,
+                navigationOptions: ({navigation}) => ({
+                    headerTitle: <HeaderTitle text={navigation.getParam('article').title}/>, ...stackOptions
+                })
+            },
         }, {navigationOptions: stackOptions})
     }
 

@@ -21,20 +21,38 @@ class DataProvider extends Component {
             dailyLoading: false,
 
             lastDaily: [],
+
+            articles: [],
+            articlesLoading: false,
+
+
+            settings: {
+                canShowAds: false,
+            },
+            settingsLoading: false,
         }
 
         this.unsubscribers = {}
     }
 
     async componentDidMount() {
-        await this.asyncSetState({dailyLoading: true})
+        await this.asyncSetState({
+            dailyLoading: true,
+            articlesLoading: true,
+            settingsLoading: true
+        })
 
-        const date = DateFormat(new Date(), 'dd-mm-yyyy')
-        console.log('DateProvider:componentDidMount - Getting daily for:', date)
+        /**
+         * Getting available daily
+         * */
         const dailyRef = FireBase.firestore().collection('daily').orderBy('schedule', 'desc').limit(8)
-
-        await this.asyncSetState({daily: undefined})
-
+        let initialData = await dailyRef.get()
+        if (initialData.empty) {
+            console.log('DateProvider:componentDidMount - No daily found!')
+            await this.asyncSetState({
+                dailyLoading: false
+            })
+        }
         this.unsubscribers.daily = dailyRef.onSnapshot(async querySnapshot => {
             const daily = []
 
@@ -49,6 +67,61 @@ class DataProvider extends Component {
                     lastDaily: daily.slice(1),
                     dailyLoading: false
                 })
+            else
+                await this.asyncSetState({
+                    dailyLoading: false
+                })
+        })
+
+        /**
+         * Getting available articles
+         * */
+        const articlesRef = FireBase.firestore().collection('articles').orderBy('timestamp', 'desc').limit(32)
+        initialData = await articlesRef.get()
+        if (initialData.empty) {
+            console.log('DateProvider:componentDidMount - No articles found!')
+            await this.asyncSetState({
+                articlesLoading: false
+            })
+        }
+        this.unsubscribers.articles = articlesRef.onSnapshot(async querySnapshot => {
+            const articles = []
+
+            querySnapshot.forEach(snapshot => {
+                console.log('DateProvider:componentDidMount - Got article:', snapshot.data().author)
+                articles.push(snapshot.data())
+            })
+
+            await this.asyncSetState({
+                articles,
+                articlesLoading: false
+            })
+        })
+
+        /**
+         * Getting available settings
+         * */
+        const settingsRef = FireBase.firestore().collection('settings').limit(32)
+        initialData = await settingsRef.get()
+        if (initialData.empty) {
+            console.log('DateProvider:componentDidMount - No settings found!')
+            await this.asyncSetState({
+                settingsLoading: false
+            })
+        }
+        this.unsubscribers.settings = settingsRef.onSnapshot(async querySnapshot => {
+            let settings = this.state.settings
+
+            querySnapshot.forEach(snapshot => {
+                settings = {...settings, ...snapshot.data()}
+            })
+
+            console.log('DateProvider:componentDidMount - Got setting:', JSON.stringify(settings))
+
+            await this.asyncSetState({
+                settings,
+                settingsLoading: false
+            })
         })
     }
 

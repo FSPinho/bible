@@ -101,8 +101,8 @@ android {
         applicationId "com.cytech.bible"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "0.0.4"
+        versionCode 7
+        versionName "0.5.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -151,6 +151,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-share')
     implementation project(':react-native-background-job')
     implementation project(':react-native-tts')
     implementation project(':react-native-splash-screen')

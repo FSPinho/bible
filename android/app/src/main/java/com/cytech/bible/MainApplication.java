@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex;
 
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import cl.json.RNSharePackage;
 import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactNativeHost;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNSharePackage(),
                     new TextToSpeechPackage(),
                     new SplashScreenReactPackage(),
                     new RNFetchBlobPackage(),

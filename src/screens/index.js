@@ -3,11 +3,23 @@ import Daily from './Daily'
 import Bible from './Bible'
 import BibleBook from './BibleBook'
 import About from './About'
+import Stories from './Stories'
+import Story from './Story'
+import Parables from './Parables'
+import Parable from './Parable'
+import Articles from './Articles'
+import Article from './Article'
 
 export {
     Home,
     Daily,
     Bible,
     BibleBook,
-    About
+    About,
+    Stories,
+    Story,
+    Parables,
+    Parable,
+    Articles,
+    Article
 }

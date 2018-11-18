@@ -5,7 +5,7 @@ import Line from './Line'
 import Loading from './Loading'
 import Button from './Button'
 import IconButton from './IconButton'
-import QuestionItem from './QuestionItem'
+import ListItem from './ListItem'
 import FadeFromDown from './FadeFronDown'
 import SnowWrapper from './Snow'
 
@@ -17,7 +17,7 @@ export {
     Loading,
     Button,
     IconButton,
-    QuestionItem,
+    ListItem,
     FadeFromDown,
     SnowWrapper
 }

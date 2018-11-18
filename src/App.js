@@ -77,11 +77,6 @@ export default class App extends Component {
             }
         }
 
-        const notificationOpen = await FireBase.notifications().getInitialNotification();
-        if (notificationOpen) {
-            console.log("App opened by notification:", notificationOpen)
-        }
-
         const fcmToken = await FireBase.messaging().getToken();
         if (fcmToken) {
             console.log("Initial token:", fcmToken)
@@ -90,20 +85,24 @@ export default class App extends Component {
         this.onTokenRefreshListener = FireBase.messaging().onTokenRefresh(fcmToken => {
             console.log("onTokenRefresh:", fcmToken)
         });
-        this.notificationDisplayedListener = FireBase.notifications().onNotificationDisplayed((notification) => {
+        this.notificationDisplayedListener = FireBase.notifications().onNotificationDisplayed(() => {
             console.log("onNotificationDisplayed")
         });
-        this.notificationListener = FireBase.notifications().onNotification((notification) => {
+        this.notificationListener = FireBase.notifications().onNotification(() => {
             console.log("onNotification")
         });
-        this.notificationOpenedListener = FireBase.notifications().onNotificationOpened((notificationOpen) => {
-            console.log("onNotificationOpened")
-        });
+
+        // this.notificationOpenedListener = FireBase.notifications().onNotificationOpened((notificationOpen) => {
+        //     console.log("onNotificationOpened")
+        // });
 
         /** Setting up notification channel */
-        const channel = new FireBase.notifications.Android.Channel('daily', 'Oração diária', FireBase.notifications.Android.Importance.Max)
+        const channelDaily = new FireBase.notifications.Android.Channel('daily', 'Oração diária', FireBase.notifications.Android.Importance.Max)
             .setDescription('Canal de orações diárias');
-        FireBase.notifications().android.createChannel(channel);
+        const channelArticle = new FireBase.notifications.Android.Channel('article', 'Histórias Reais', FireBase.notifications.Android.Importance.Max)
+            .setDescription('Canal de histórias reais');
+        FireBase.notifications().android.createChannel(channelDaily);
+        FireBase.notifications().android.createChannel(channelArticle);
 
         /**
          * Initializing Firebase Admob
@@ -122,7 +121,7 @@ export default class App extends Component {
     componentWillUnmount() {
         this.notificationDisplayedListener();
         this.notificationListener();
-        this.notificationOpenedListener();
+        // this.notificationOpenedListener();
         this.onTokenRefreshListener();
     }
 

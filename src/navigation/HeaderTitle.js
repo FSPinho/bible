@@ -1,5 +1,6 @@
 import React from 'react';
 import {withTheme} from '../theme';
+import {Dimensions} from 'react-native';
 import PropTypes from "prop-types";
 import Text from "../components/Text";
 import Box from "../components/Box";
@@ -14,14 +15,14 @@ class HeaderTitle extends React.Component {
         } = this.props
 
         const headerTitle = []
-        const maxWidth = typeof text === 'string' ? '100%' : `${40 / (text.length || 1)}%`
+        const maxWidth = typeof text === 'string' ? Dimensions.get('screen').width * .5 : `${Dimensions.get('screen').width * .5 / (text.length || 1)}%`
         const primaryTextProps = {
             weight: '700',
             primary: true,
             size: 16,
             numberOfLines: 1,
             fit: false,
-            style: {maxWidth: '100%'}
+            style: {maxWidth}
         }
         const secondaryTextProps = {
             weight: '400',
@@ -30,7 +31,7 @@ class HeaderTitle extends React.Component {
             numberOfLines: 1,
             fit: false,
             height: 16,
-            style: {maxWidth: '100%'}
+            style: {maxWidth}
         }
 
         if (typeof text === 'string') {

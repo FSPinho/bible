@@ -163,6 +163,10 @@ class Daily extends React.Component {
                                                     paragraph: {
                                                         ...mdStyles.paragraph,
                                                         marginBottom: 16
+                                                    },
+                                                    heading: {
+                                                        ...mdStyles.heading,
+                                                        marginBottom: 16
                                                     }
                                                 }}>
                                                 {d.data.replace(/\\n/g, '\n\n')}
