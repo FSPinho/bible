@@ -5,7 +5,7 @@ import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
 import {Events} from "../constants/Analytics";
-import Markdown from 'react-native-simple-markdown'
+import Markdown from 'react-native-markdown-renderer';
 import Text from "../components/Text";
 import Button from "../components/Button";
 import Spacer from "../components/Spacer";
@@ -63,19 +63,9 @@ class Article extends React.Component {
                                 !!article && (
                                     <Box fit paddingSmall marginSmall>
                                         <Markdown
-                                            styles={{
-                                                ...mdStyles,
+                                            style={{
                                                 text: {
-                                                    ...mdStyles.text,
                                                     color: theme.palette.backgroundPrimaryText,
-                                                },
-                                                paragraph: {
-                                                    ...mdStyles.paragraph,
-                                                    marginBottom: 16
-                                                },
-                                                heading: {
-                                                    ...mdStyles.heading,
-                                                    marginBottom: 16
                                                 }
                                             }}>
                                             {data}
@@ -90,8 +80,10 @@ class Article extends React.Component {
                                 <Text weight={'700'}>Conte a sua história!</Text>
                                 <Spacer vertical/>
                                 <Text secondary>
-                                    Muitas pessoas mudaram suas vidas após ouvir uma história, mas nem todas percebem como
-                                    as palavras são poderosas. Conte como Deus mudou sua vida e mostre o caminho da felicidade para milhares de
+                                    Muitas pessoas mudaram suas vidas após ouvir uma história, mas nem todas percebem
+                                    como
+                                    as palavras são poderosas. Conte como Deus mudou sua vida e mostre o caminho da
+                                    felicidade para milhares de
                                     pessoas!
                                 </Text>
                             </Box>
@@ -128,131 +120,6 @@ class Article extends React.Component {
                 </Box>
             </Box>
         )
-    }
-}
-
-const mdStyles = {
-    blockQuoteSection: {
-        flexDirection: 'row',
-    },
-    blockQuoteSectionBar: {
-        width: 3,
-        height: null,
-        backgroundColor: '#DDDDDD',
-        marginRight: 15,
-    },
-    codeBlock: {
-        fontFamily: 'Courier',
-        fontWeight: '500',
-    },
-    del: {
-        textDecorationLine: 'line-through',
-    },
-    em: {
-        fontStyle: 'italic',
-    },
-    heading: {
-        fontWeight: '200',
-    },
-    heading1: {
-        fontSize: 32,
-    },
-    heading2: {
-        fontSize: 24,
-    },
-    heading3: {
-        fontSize: 18,
-    },
-    heading4: {
-        fontSize: 16,
-    },
-    heading5: {
-        fontSize: 13,
-    },
-    heading6: {
-        fontSize: 11,
-    },
-    hr: {
-        backgroundColor: '#cccccc',
-        height: 1,
-    },
-    image: {
-        width: 320,
-        height: 320,
-    },
-    inlineCode: {
-        backgroundColor: '#eeeeee',
-        borderColor: '#dddddd',
-        borderRadius: 3,
-        borderWidth: 1,
-        fontFamily: 'Courier',
-        fontWeight: 'bold',
-    },
-    link: {
-        textDecorationLine: 'underline',
-    },
-    listItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    listItemNumber: {
-        fontWeight: 'bold',
-    },
-    mailTo: {
-        textDecorationLine: 'underline',
-    },
-    paragraph: {
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-start',
-    },
-    listItemText: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        color: '#222222',
-    },
-    strong: {
-        fontWeight: 'bold',
-    },
-    table: {
-        borderWidth: 1,
-        borderColor: '#222222',
-        borderRadius: 3,
-    },
-    tableHeader: {
-        backgroundColor: '#222222',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    tableHeaderCell: {
-        color: '#ffffff',
-        fontWeight: 'bold',
-        padding: 5,
-    },
-    tableRow: {
-        borderBottomWidth: 1,
-        borderColor: '#222222',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    tableRowLast: {
-        borderColor: 'transparent',
-    },
-    tableRowCell: {
-        padding: 5,
-    },
-    text: {
-        color: '#222222',
-    },
-    u: {
-        textDecorationLine: 'underline'
-    },
-    video: {
-        width: 300,
-        height: 300,
     }
 }
 

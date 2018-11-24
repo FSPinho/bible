@@ -1,12 +1,12 @@
 import React from 'react'
-import {ScrollView, StyleSheet} from 'react-native'
+import {Platform} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
 import {Events} from "../constants/Analytics";
-import Markdown from 'react-native-simple-markdown'
+import Markdown from 'react-native-markdown-renderer';
 import TextToSpeech from "../services/TextToSpeech";
 import RemoveMarkdown from 'remove-markdown'
 import Text from "../components/Text";
@@ -121,19 +121,9 @@ class Daily extends React.Component {
                                     !!daily && (
                                         <Box fit paddingSmall marginSmall>
                                             <Markdown
-                                                styles={{
-                                                    ...mdStyles,
+                                                style={{
                                                     text: {
-                                                        ...mdStyles.text,
                                                         color: theme.palette.backgroundPrimaryText,
-                                                    },
-                                                    paragraph: {
-                                                        ...mdStyles.paragraph,
-                                                        marginBottom: 16
-                                                    },
-                                                    heading: {
-                                                        ...mdStyles.heading,
-                                                        marginBottom: 16
                                                     }
                                                 }}>
                                                 {daily.data.replace(/\\n/g, '\n\n')}
@@ -154,19 +144,11 @@ class Daily extends React.Component {
                                         <Line/>
                                         <Box fit paddingSmall marginSmall>
                                             <Markdown
-                                                styles={{
+                                                style={{
                                                     ...mdStyles,
                                                     text: {
                                                         ...mdStyles.text,
                                                         color: theme.palette.backgroundPrimaryText,
-                                                    },
-                                                    paragraph: {
-                                                        ...mdStyles.paragraph,
-                                                        marginBottom: 16
-                                                    },
-                                                    heading: {
-                                                        ...mdStyles.heading,
-                                                        marginBottom: 16
                                                     }
                                                 }}>
                                                 {d.data.replace(/\\n/g, '\n\n')}
@@ -184,31 +166,33 @@ class Daily extends React.Component {
     }
 }
 
-const styles = theme => StyleSheet.create({})
-
 const mdStyles = {
-    blockQuoteSection: {
-        flexDirection: 'row',
-    },
-    blockQuoteSectionBar: {
-        width: 3,
-        height: null,
-        backgroundColor: '#DDDDDD',
-        marginRight: 15,
-    },
+    root: {},
+    view: {},
     codeBlock: {
-        fontFamily: 'Courier',
-        fontWeight: '500',
+        borderWidth: 1,
+        borderColor: '#CCCCCC',
+        backgroundColor: '#f5f5f5',
+        padding: 10,
+        borderRadius: 4,
+    },
+    codeInline: {
+        borderWidth: 1,
+        borderColor: '#CCCCCC',
+        backgroundColor: '#f5f5f5',
+        padding: 10,
+        borderRadius: 4,
     },
     del: {
-        textDecorationLine: 'line-through',
+        backgroundColor: '#000000',
     },
     em: {
         fontStyle: 'italic',
     },
-    heading: {
-        fontWeight: '200',
+    headingContainer: {
+        flexDirection: 'row',
     },
+    heading: {},
     heading1: {
         fontSize: 32,
     },
@@ -228,87 +212,127 @@ const mdStyles = {
         fontSize: 11,
     },
     hr: {
-        backgroundColor: '#cccccc',
+        backgroundColor: '#000000',
         height: 1,
     },
-    image: {
-        width: 320,
-        height: 320,
+    blockquote: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        margin: 20,
+        backgroundColor: '#CCCCCC',
     },
     inlineCode: {
-        backgroundColor: '#eeeeee',
-        borderColor: '#dddddd',
         borderRadius: 3,
         borderWidth: 1,
         fontFamily: 'Courier',
         fontWeight: 'bold',
     },
-    link: {
-        textDecorationLine: 'underline',
-    },
+    list: {},
     listItem: {
+        flex: 1,
+        flexWrap: 'wrap',
+        // backgroundColor: 'green',
+    },
+    listUnordered: {},
+
+    listUnorderedItem: {
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
-    listItemNumber: {
+
+    listUnorderedItemIcon: {
+        marginLeft: 10,
+        marginRight: 10,
+        ...Platform.select({
+            ['ios']: {
+                lineHeight: 36,
+            },
+            ['android']: {
+                lineHeight: 30,
+            },
+        }),
+    },
+    listUnorderedItemText: {
+        fontSize: 20,
+        lineHeight: 20,
+    },
+
+    listOrdered: {},
+    listOrderedItem: {
+        flexDirection: 'row',
+    },
+    listOrderedItemIcon: {
+        marginLeft: 10,
+        marginRight: 10,
+        ...Platform.select({
+            ['ios']: {
+                lineHeight: 36,
+            },
+            ['android']: {
+                lineHeight: 30,
+            },
+        }),
+    },
+    listOrderedItemText: {
         fontWeight: 'bold',
-    },
-    mailTo: {
-        textDecorationLine: 'underline',
+        lineHeight: 20,
     },
     paragraph: {
+        marginTop: 10,
+        marginBottom: 10,
         flexWrap: 'wrap',
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },
-    listItemText: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        color: '#222222',
+    hardbreak: {
+        width: '100%',
+        height: 1,
     },
     strong: {
         fontWeight: 'bold',
     },
     table: {
         borderWidth: 1,
-        borderColor: '#222222',
+        borderColor: '#000000',
         borderRadius: 3,
     },
-    tableHeader: {
-        backgroundColor: '#222222',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
+    tableHeader: {},
     tableHeaderCell: {
-        color: '#ffffff',
-        fontWeight: 'bold',
+        flex: 1,
+        // color: '#000000',
         padding: 5,
+        // backgroundColor: 'green',
     },
     tableRow: {
         borderBottomWidth: 1,
-        borderColor: '#222222',
+        borderColor: '#000000',
         flexDirection: 'row',
-        justifyContent: 'space-around',
-    },
-    tableRowLast: {
-        borderColor: 'transparent',
     },
     tableRowCell: {
+        flex: 1,
         padding: 5,
     },
-    text: {
-        color: '#222222',
+    text: {},
+    strikethrough: {
+        textDecorationLine: 'line-through',
+    },
+    link: {
+        textDecorationLine: 'underline',
+    },
+    blocklink: {
+        flex: 1,
+        borderColor: '#000000',
+        borderBottomWidth: 1,
+
     },
     u: {
-        textDecorationLine: 'underline'
+        borderColor: '#000000',
+        borderBottomWidth: 1,
     },
-    video: {
-        width: 300,
-        height: 300,
-    }
+    image: {
+        flex: 1,
+    },
 }
 
-export default withData(withTheme(styles, Daily))
+export default withData(withTheme({}, Daily))

@@ -20,7 +20,7 @@ class Home extends React.Component {
         FireBase.analytics().logEvent(Events.SessionStart)
         FireBase.analytics().logEvent(Events.OpenHome)
 
-        __DEV__ && this.props.navigation.navigate(Routes.Articles)
+        __DEV__ && this.props.navigation.navigate(Routes.Daily)
 
         const notificationOpen = await FireBase.notifications().getInitialNotification()
         if (notificationOpen) {
