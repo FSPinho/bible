@@ -15,13 +15,36 @@
       },
       "oauth_client": [
         {
-          "client_id": "275345121792-tdf4qoktr3brh88ggi9qertc5qdgslnr.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.cytech.bible",
-            "certificate_hash": "45fbc655ba04feee5a4ebb2bc38a144af06f9235"
-          }
+          "client_id": "275345121792-9inn2d0mgiddbngmragmk787nbevucr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAP2VQSXURGKwqqNiED2sJqcjvMd7ixQYo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
         },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275345121792:android:ae8072c750e1edaf",
+        "android_client_info": {
+          "package_name": "com.cytech.paid.bible"
+        }
+      },
+      "oauth_client": [
         {
           "client_id": "275345121792-9inn2d0mgiddbngmragmk787nbevucr0.apps.googleusercontent.com",
           "client_type": 3
@@ -37,13 +60,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "275345121792-9inn2d0mgiddbngmragmk787nbevucr0.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

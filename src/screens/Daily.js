@@ -1,5 +1,5 @@
 import React from 'react'
-import {Platform} from 'react-native'
+import {Clipboard, Platform} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
@@ -10,10 +10,11 @@ import Markdown from 'react-native-markdown-renderer';
 import TextToSpeech from "../services/TextToSpeech";
 import RemoveMarkdown from 'remove-markdown'
 import Text from "../components/Text";
-import Button from "../components/Button";
-import Spacer from "../components/Spacer";
 import LineIcon from "react-native-vector-icons/SimpleLineIcons";
 import Line from "../components/Line";
+import IconButton from "../components/IconButton";
+import Alert from "../services/Alert";
+import {Routes} from "../navigation/RootNavigation";
 
 class Daily extends React.Component {
 
@@ -86,6 +87,16 @@ class Daily extends React.Component {
         }
     }
 
+    _doCopyToClipBoard = (daily) => {
+        Clipboard.setString("Oração do dia:\n" + RemoveMarkdown(daily.data).replace(/\\n/g, ' '))
+        Alert.showText("Oração copiada!")
+    }
+
+    _doOpenImageMaker = (daily) => {
+        const text = daily.data
+        this.props.navigation.navigate(Routes.ImageMaker, {text})
+    }
+
     get cleanData() {
         return RemoveMarkdown(this.props.data.daily.data).replace(/\\n/g, '.')
     }
@@ -107,14 +118,27 @@ class Daily extends React.Component {
                                     <Box paddingSmall>
                                         <Text>Oração de hoje</Text>
                                     </Box>
-                                    {canPlay && (
-                                        <Button flat onPress={this._doPlay}>
-                                            <Text>{playing ? 'PARAR' : 'OUVIR'}</Text>
-                                            <Spacer/>
-                                            <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
-                                                      name={playing ? 'volume-off' : 'volume-2'} size={24}/>
-                                        </Button>
-                                    )}
+
+                                    <Box>
+                                        <IconButton flat onPress={() => this._doOpenImageMaker(daily)}>
+                                            <LineIcon
+                                                color={theme.palette.backgroundPrimaryText}
+                                                name={'share'}
+                                                size={24}/>
+                                        </IconButton>
+                                        <IconButton flat onPress={() => this._doCopyToClipBoard(daily)}>
+                                            <LineIcon
+                                                color={theme.palette.backgroundPrimaryText}
+                                                name={'docs'}
+                                                size={24}/>
+                                        </IconButton>
+                                        {canPlay && (
+                                            <IconButton flat onPress={this._doPlay}>
+                                                <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
+                                                          name={playing ? 'volume-off' : 'volume-2'} size={24}/>
+                                            </IconButton>
+                                        )}
+                                    </Box>
                                 </Box>
                                 <Line/>
                                 {
@@ -139,6 +163,21 @@ class Daily extends React.Component {
                                         <Box alignCenter justifySpaceBetween marginSmall>
                                             <Box paddingSmall>
                                                 <Text>Oração do dia {d.schedule.replace(/-/g, '/')}</Text>
+                                            </Box>
+
+                                            <Box>
+                                                <IconButton flat onPress={() => this._doOpenImageMaker(d)}>
+                                                    <LineIcon
+                                                        color={theme.palette.backgroundPrimaryText}
+                                                        name={'share'}
+                                                        size={24}/>
+                                                </IconButton>
+                                                <IconButton flat onPress={() => this._doCopyToClipBoard(d)}>
+                                                    <LineIcon
+                                                        color={theme.palette.backgroundPrimaryText}
+                                                        name={'docs'}
+                                                        size={24}/>
+                                                </IconButton>
                                             </Box>
                                         </Box>
                                         <Line/>
@@ -166,7 +205,7 @@ class Daily extends React.Component {
     }
 }
 
-const mdStyles = {
+export const mdStyles = {
     root: {},
     view: {},
     codeBlock: {

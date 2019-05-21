@@ -1,5 +1,5 @@
 import React from 'react'
-import {Animated, ScrollView, StyleSheet} from 'react-native'
+import {Animated, ScrollView, StyleSheet, Clipboard} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
@@ -12,8 +12,23 @@ import TextToSpeech from "../services/TextToSpeech";
 import Button from "../components/Button";
 import LineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import Loading from "../components/Loading";
+import {Alert} from '../services'
 
 class BibleBookChapterInner extends React.PureComponent {
+
+    _doCopyToClipBoard = () => {
+        const {chapter} = this.props
+        let copy = ""
+
+        chapter.versicles.map(v => {
+            copy += `(${v.index}) ${v.title} `
+        })
+
+        copy += `\n\n - ${chapter.title}, capítulo ${chapter.index}.`
+
+        Clipboard.setString(copy)
+        Alert.showText("Capítulo copiado!")
+    }
 
     _renderVersicles = () => {
         const {chapter: c, canPlay, onPlayPress, playing, playingPartIndex} = this.props
@@ -82,6 +97,15 @@ class BibleBookChapterInner extends React.PureComponent {
                                 numberOfLines={1}
                                 secondary>Capítulo {c.index}</Text>
                         </Box>
+
+                        <Button flat onPress={this._doCopyToClipBoard}>
+                            <Text>COPIAR</Text>
+                            <Spacer/>
+                            <LineIcon
+                                color={this.props.theme.palette.backgroundPrimaryText}
+                                name={'docs'}
+                                size={24}/>
+                        </Button>
                     </Box>
                     <Box fit column>
                         {this._renderVersicles()}

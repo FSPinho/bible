@@ -123,27 +123,6 @@ class Home extends React.Component {
                                 )
                             }
 
-                            {
-                                !!data.articles.length && (
-                                    <Box fit paper primary marginSmall>
-                                        <Touchable onPress={this._doOpenArticles} primary>
-                                            <Box padding centralize
-                                                 column fit
-                                                 style={styles.cardMedia}>
-                                                <Spacer vertical large/>
-                                                <LineIcon size={72} color={theme.palette.primary}
-                                                          name={'people'}/>
-                                                <Spacer vertical/>
-                                                <Text size={20} color={theme.palette.primary} center>
-                                                    Histórias Reais
-                                                </Text>
-                                                <Spacer vertical large/>
-                                            </Box>
-                                        </Touchable>
-                                    </Box>
-                                )
-                            }
-
                             <Box>
                                 <Box fit paper primary marginSmall>
                                     <Touchable onPress={this._doOpenDaily} primary>
@@ -161,7 +140,9 @@ class Home extends React.Component {
                                         </Box>
                                     </Touchable>
                                 </Box>
+                            </Box>
 
+                            <Box>
                                 <Box fit paper primary marginSmall>
                                     <Touchable onPress={this._doOpenBible} primary>
                                         <Box padding centralize
@@ -178,6 +159,27 @@ class Home extends React.Component {
                                         </Box>
                                     </Touchable>
                                 </Box>
+
+                                {
+                                    !!data.articles.length && (
+                                        <Box fit paper primary marginSmall>
+                                            <Touchable onPress={this._doOpenArticles} primary>
+                                                <Box padding centralize
+                                                     column fit
+                                                     style={styles.cardMedia}>
+                                                    <Spacer vertical large/>
+                                                    <LineIcon size={72} color={theme.palette.primary}
+                                                              name={'people'}/>
+                                                    <Spacer vertical/>
+                                                    <Text size={20} color={theme.palette.primary} center>
+                                                        Histórias Reais
+                                                    </Text>
+                                                    <Spacer vertical large/>
+                                                </Box>
+                                            </Touchable>
+                                        </Box>
+                                    )
+                                }
                             </Box>
 
                             <Box>
@@ -221,7 +223,7 @@ class Home extends React.Component {
                                     <Touchable
                                         onPress={() => {
                                             FireBase.analytics().logEvent(Events.OpenEvaluate)
-                                            Linking.openURL('https://play.google.com/store/apps/details?id=com.cytech.bible')
+                                            Linking.openURL('https://play.google.com/store/apps/details?id=com.cytech.paid.bible')
                                         }}
                                         primary>
                                         <Box padding centralize
@@ -243,7 +245,7 @@ class Home extends React.Component {
                                     <Touchable onPress={() => {
                                         FireBase.analytics().logEvent(Events.OpenShare)
                                         Share.open({
-                                            url: 'https://play.google.com/store/apps/details?id=com.cytech.bible',
+                                            url: 'https://play.google.com/store/apps/details?id=com.cytech.paid.bible',
                                             title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
                                         })
                                     }} primary>

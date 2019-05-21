@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import {withTheme} from "../theme";
 import {createStackNavigator} from "react-navigation";
-import {Home, Daily, Bible, BibleBook, About, Stories, Story, Parables, Parable, Articles, Article} from "../screens";
+import {Home, Daily, ImageMaker, Bible, BibleBook, About, Stories, Story, Parables, Parable, Articles, Article} from "../screens";
 import Header from "./Header";
 import HeaderTitle from "./HeaderTitle";
 
 export const Routes = {
     Home: 'HOME',
     Daily: 'DAILY',
+    ImageMaker: 'IMAGE_MAKER',
     Bible: 'BIBLE',
     BibleBook: 'BIBLE_BOOK',
     About: 'ABOUT',
@@ -37,6 +38,10 @@ class RootNavigation extends Component {
             [Routes.Daily]: {
                 screen: Daily,
                 navigationOptions: {headerTitle: <HeaderTitle text={'Oração do dia'}/>, ...stackOptions}
+            },
+            [Routes.ImageMaker]: {
+                screen: ImageMaker,
+                navigationOptions: {headerTitle: <HeaderTitle text={'Compartilhar Oração'}/>, ...stackOptions}
             },
             [Routes.Bible]: {
                 screen: Bible,

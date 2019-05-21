@@ -4,8 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import cl.json.ShareApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactApplication;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import cl.json.RNSharePackage;
 import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import net.no_mad.tts.TextToSpeechPackage;
@@ -29,7 +31,7 @@ import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication, ShareApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
         @Override
@@ -41,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new RNViewShotPackage(),
             new RNSharePackage(),
                     new TextToSpeechPackage(),
                     new SplashScreenReactPackage(),
@@ -79,5 +82,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
         MultiDex.install(this);
+    }
+
+    @Override
+    public String getFileProviderAuthority() {
+        return BuildConfig.APPLICATION_ID + ".provider";
     }
 }

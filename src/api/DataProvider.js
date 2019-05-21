@@ -45,7 +45,7 @@ class DataProvider extends Component {
         /**
          * Getting available daily
          * */
-        const dailyRef = FireBase.firestore().collection('daily').orderBy('schedule', 'desc').limit(8)
+        const dailyRef = FireBase.firestore().collection('daily').orderBy('schedule', 'desc').limit(32)
         let initialData = await dailyRef.get()
         if (initialData.empty) {
             console.log('DateProvider:componentDidMount - No daily found!')

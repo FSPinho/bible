@@ -18,7 +18,7 @@ class Snow extends React.Component {
             <Box fit column>
                 {children}
 
-                {settings.canShowAds && <Box paddingSmall primary centralize style={{borderRadius: 0, elevation: 8}}>
+                {settings.canShowAds && false && <Box paddingSmall primary centralize style={{borderRadius: 0, elevation: 8}}>
                     <Box fitAbsolute centralize>
                         <Text>Carregando...</Text>
                     </Box>

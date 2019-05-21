@@ -19,7 +19,7 @@ class Bible extends React.Component {
         console.log("Home:componentDidMount - Sending current screen to analytics...")
         FireBase.analytics().logEvent(Events.OpenBible)
 
-        // this.props.navigation.navigate(Routes.BibleBook, {book: BibleData.testments[0].books[0]})
+        this.props.navigation.navigate(Routes.BibleBook, {book: BibleData.testments[0].books[0]})
     }
 
     _doOpenBook = (book) => {
