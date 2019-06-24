@@ -1,5 +1,5 @@
 import React from 'react'
-import {Clipboard, Platform} from 'react-native'
+import {ImageBackground, Clipboard, Platform, Dimensions, PixelRatio} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
@@ -101,9 +101,35 @@ class Daily extends React.Component {
         return RemoveMarkdown(this.props.data.daily.data).replace(/\\n/g, '.')
     }
 
+
+    _getDailyAspectRatio = (daily) => {
+        const imageAspectTXT = daily.imageAspectRatio || daily.imageAspect|| daily.imageRatio || '16x9'
+        return {
+            width: parseFloat(imageAspectTXT.split('x')[0]) || 16,
+            height: parseFloat(imageAspectTXT.split('x')[1]) || 9,
+        }
+    }
+
+    _getDailyImageSize = (daily) => {
+        const {width} = Dimensions.get('screen');
+        const imageAspect = this._getDailyAspectRatio(daily);
+        return {
+            width: width - 32,
+            height: (width - 32) * imageAspect.height / imageAspect.width,
+        }
+    }
+
+    _getDailyImageURI = (daily) => {
+        const size = this._getDailyImageSize(daily);
+        return daily.image.replace(
+            '/upload/',
+            `/upload/c_thumb,g_face,w_${PixelRatio.getPixelSizeForLayoutSize(parseInt(size.width))},h_${PixelRatio.getPixelSizeForLayoutSize(parseInt(size.height))}/`
+        )
+    }
+
     render() {
         const {playing, canPlay} = this.state
-        const {data, theme} = this.props
+        const {data, theme, showSingleDaily} = this.props
 
         const {daily, lastDaily} = data
 
@@ -111,54 +137,70 @@ class Daily extends React.Component {
             <Box secondary fit column>
                 <Loading active={data.dailyLoading} size={56}>
                     <Box scroll>
-                        <Box column fit paddingSmall>
-
-                            <Box primary paper column style={{elevation: 2}} marginSmall>
-                                <Box alignCenter justifySpaceBetween marginSmall>
-                                    <Box paddingSmall>
-                                        <Text>Oração de hoje</Text>
-                                    </Box>
-
-                                    <Box>
-                                        <IconButton flat onPress={() => this._doOpenImageMaker(daily)}>
-                                            <LineIcon
-                                                color={theme.palette.backgroundPrimaryText}
-                                                name={'share'}
-                                                size={24}/>
-                                        </IconButton>
-                                        <IconButton flat onPress={() => this._doCopyToClipBoard(daily)}>
-                                            <LineIcon
-                                                color={theme.palette.backgroundPrimaryText}
-                                                name={'docs'}
-                                                size={24}/>
-                                        </IconButton>
-                                        {canPlay && (
-                                            <IconButton flat onPress={this._doPlay}>
-                                                <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
-                                                          name={playing ? 'volume-off' : 'volume-2'} size={24}/>
-                                            </IconButton>
-                                        )}
-                                    </Box>
-                                </Box>
-                                <Line/>
-                                {
-                                    !!daily && (
-                                        <Box fit paddingSmall marginSmall>
-                                            <Markdown
-                                                style={{
-                                                    text: {
-                                                        color: theme.palette.backgroundPrimaryText,
-                                                    }
-                                                }}>
-                                                {daily.data.replace(/\\n/g, '\n\n')}
-                                            </Markdown>
-                                        </Box>
-                                    )
-                                }
-                            </Box>
+                        <Box column fit paddingSmall={!showSingleDaily}>
 
                             {
-                                !!lastDaily && !!lastDaily.length && lastDaily.map(d => (
+                                !!daily && (
+                                    <Box primary paper column style={{elevation: 2}} marginSmall>
+                                        <Box alignCenter justifySpaceBetween marginSmall>
+                                            <Box paddingSmall>
+                                                <Text>Oração de hoje</Text>
+                                            </Box>
+
+                                            <Box>
+                                                <IconButton flat onPress={() => this._doOpenImageMaker(daily)}>
+                                                    <LineIcon
+                                                        color={theme.palette.backgroundPrimaryText}
+                                                        name={'share'}
+                                                        size={24}/>
+                                                </IconButton>
+                                                <IconButton flat onPress={() => this._doCopyToClipBoard(daily)}>
+                                                    <LineIcon
+                                                        color={theme.palette.backgroundPrimaryText}
+                                                        name={'docs'}
+                                                        size={24}/>
+                                                </IconButton>
+                                                {canPlay && (
+                                                    <IconButton flat onPress={this._doPlay}>
+                                                        <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
+                                                                  name={playing ? 'volume-off' : 'volume-2'} size={24}/>
+                                                    </IconButton>
+                                                )}
+                                            </Box>
+                                        </Box>
+                                        <Line/>
+
+                                        {daily.image && <Line/>}
+
+                                        {
+                                            daily.image &&
+                                            <ImageBackground
+                                                style={{...this._getDailyImageSize(daily)}}
+                                                source={{
+                                                    uri: this._getDailyImageURI(daily)
+                                                }}/>
+                                        }
+
+                                        {
+                                            !!daily && (
+                                                <Box fit paddingSmall marginSmall>
+                                                    <Markdown
+                                                        style={{
+                                                            text: {
+                                                                color: theme.palette.backgroundPrimaryText,
+                                                            }
+                                                        }}>
+                                                        {daily.data.replace(/\\n/g, '\n\n')}
+                                                    </Markdown>
+                                                </Box>
+                                            )
+                                        }
+                                    </Box>
+                                )
+                            }
+
+                            {
+                                !showSingleDaily && !!lastDaily && !!lastDaily.length && lastDaily.map(d => (
                                     <Box primary paper column style={{elevation: 2}} marginSmall key={d.schedule}>
                                         <Box alignCenter justifySpaceBetween marginSmall>
                                             <Box paddingSmall>
@@ -181,6 +223,18 @@ class Daily extends React.Component {
                                             </Box>
                                         </Box>
                                         <Line/>
+
+                                        {!!d.image && <Line/>}
+
+                                        {
+                                            !!d.image &&
+                                            <ImageBackground
+                                                style={{...this._getDailyImageSize(d)}}
+                                                source={{
+                                                    uri: this._getDailyImageURI(d)
+                                                }}/>
+                                        }
+
                                         <Box fit paddingSmall marginSmall>
                                             <Markdown
                                                 style={{

@@ -11,6 +11,7 @@ import {Routes} from "../navigation/RootNavigation";
 import LineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import Touchable from "../components/Touchable";
 import Spacer from "../components/Spacer";
+import {Daily} from "../screens";
 import Share from 'react-native-share'
 
 class Home extends React.Component {
@@ -20,7 +21,7 @@ class Home extends React.Component {
         FireBase.analytics().logEvent(Events.SessionStart)
         FireBase.analytics().logEvent(Events.OpenHome)
 
-        __DEV__ && this.props.navigation.navigate(Routes.Daily)
+        // __DEV__ && this.props.navigation.navigate(Routes.Daily)
 
         const notificationOpen = await FireBase.notifications().getInitialNotification()
         if (notificationOpen) {
@@ -123,6 +124,8 @@ class Home extends React.Component {
                                 )
                             }
 
+                            <Daily showSingleDaily/>
+
                             <Box>
                                 <Box fit paper primary marginSmall>
                                     <Touchable onPress={this._doOpenDaily} primary>
@@ -134,7 +137,7 @@ class Home extends React.Component {
                                                       name={'eyeglass'}/>
                                             <Spacer vertical/>
                                             <Text size={20} color={theme.palette.primary} center>
-                                                Oração diária
+                                                Mais Orações
                                             </Text>
                                             <Spacer vertical large/>
                                         </Box>
