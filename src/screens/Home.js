@@ -12,7 +12,9 @@ import LineIcon from 'react-native-vector-icons/SimpleLineIcons'
 import Touchable from "../components/Touchable";
 import Spacer from "../components/Spacer";
 import {Daily} from "../screens";
+import Phrases from "../constants/Phrases";
 import Share from 'react-native-share'
+import IconButton from "../components/IconButton";
 
 class Home extends React.Component {
 
@@ -88,6 +90,10 @@ class Home extends React.Component {
         this.props.navigation.navigate(Routes.Parables)
     }
 
+    _doOpenImageMaker = (text) => {
+        this.props.navigation.navigate(Routes.ImageMaker, {text})
+    }
+
     componentWillUnmount() {
         FireBase.analytics().logEvent(Events.SessionEnd)
         this.notificationOpenedListener()
@@ -103,8 +109,37 @@ class Home extends React.Component {
                     <Box scroll>
                         <Box column fit paddingSmall>
 
+                            <Box fit marginSmall paddingSmall alignStretch column paper primary>
+
+                                <Box fit paddingSmall centralize>
+                                    <Text size={16}
+                                          color={theme.palette.backgroundPrimaryTextDisabled}
+                                          center>
+                                        Frase do dia
+                                    </Text>
+                                </Box>
+
+                                <Box fit paddingSmall centralize>
+                                    <Text size={18}
+                                          color={theme.palette.primary}
+                                          center>
+                                        "{Phrases.getTodaySPhrase()}"
+                                    </Text>
+                                </Box>
+
+                                <Box fit justifyEnd>
+                                    <IconButton flat onPress={() => this._doOpenImageMaker(Phrases.getTodaySPhrase())}>
+                                        <LineIcon
+                                            color={theme.palette.backgroundPrimaryText}
+                                            name={'share'}
+                                            size={24}/>
+                                    </IconButton>
+                                </Box>
+
+                            </Box>
+
                             {
-                                !!__DEV__ && (
+                                !!__DEV__ && false && (
                                     <Box fit paper primary marginSmall>
                                         <Touchable onPress={this._doSendTestNotify} primary>
                                             <Box padding centralize
@@ -124,7 +159,7 @@ class Home extends React.Component {
                                 )
                             }
 
-                            <Daily showSingleDaily/>
+                            <Daily showSingleDaily navigation={this.props.navigation}/>
 
                             <Box>
                                 <Box fit paper primary marginSmall>
