@@ -1,6 +1,7 @@
-import React, {Component} from 'react'
-import FireBase from 'react-native-firebase'
-import DateFormat from 'dateformat'
+import React, {Component} from 'react';
+import FireBase from 'react-native-firebase';
+import Daily from '../constants/Daily';
+import DateFormat from 'dateformat';
 
 const {Provider, Consumer} = React.createContext({
     data: undefined
@@ -25,6 +26,8 @@ class DataProvider extends Component {
             articles: [],
             articlesLoading: false,
 
+            cards: [],
+            cardsLoading: false,
 
             settings: {
                 canShowAds: false,
@@ -45,39 +48,19 @@ class DataProvider extends Component {
         /**
          * Getting available daily
          * */
-        const dailyRef = FireBase.firestore().collection('daily').orderBy('schedule', 'desc').limit(32)
-        let initialData = await dailyRef.get()
-        if (initialData.empty) {
-            console.log('DateProvider:componentDidMount - No daily found!')
-            await this.asyncSetState({
-                dailyLoading: false
-            })
-        }
-        this.unsubscribers.daily = dailyRef.onSnapshot(async querySnapshot => {
-            const daily = []
+        const daily = Daily.getTodaySDaily();
 
-            querySnapshot.forEach(snapshot => {
-                console.log('DateProvider:componentDidMount - Got daily:', snapshot.data().schedule)
-                daily.push(snapshot.data())
-            })
-
-            if (daily.length)
-                await this.asyncSetState({
-                    daily: daily[0],
-                    lastDaily: daily.slice(1),
-                    dailyLoading: false
-                })
-            else
-                await this.asyncSetState({
-                    dailyLoading: false
-                })
-        })
+        await this.asyncSetState({
+            daily: daily[0],
+            lastDaily: daily.slice(1),
+            dailyLoading: false
+        });
 
         /**
          * Getting available articles
          * */
         const articlesRef = FireBase.firestore().collection('articles').orderBy('timestamp', 'desc').limit(32)
-        initialData = await articlesRef.get()
+        let initialData = await articlesRef.get()
         if (initialData.empty) {
             console.log('DateProvider:componentDidMount - No articles found!')
             await this.asyncSetState({
@@ -96,7 +79,45 @@ class DataProvider extends Component {
                 articles,
                 articlesLoading: false
             })
-        })
+        });
+
+        /**
+         * Getting available cards
+         * */
+        const cardsRef = FireBase
+            .firestore()
+            .collection('cards')
+            .where('expiration', '>=', DateFormat(new Date(), "yyyy-mm-dd'T'HH:MM:ss"))
+            .orderBy('expiration')
+            .limit(8);
+
+        console.log('DateProvider:componentDidMount - Getting cards after:', DateFormat(new Date(), "yyyy-mm-dd'T'HH:MM:ss"));
+
+        initialData = await cardsRef.get();
+        if (initialData.empty) {
+            console.log('DateProvider:componentDidMount - No cards found!');
+            await this.asyncSetState({
+                cardsLoading: false
+            });
+        }
+        this.unsubscribers.cards = cardsRef.onSnapshot(async querySnapshot => {
+            const cards = [];
+
+            console.log('DateProvider:componentDidMount - Got cards change...');
+
+            querySnapshot.forEach(snapshot => {
+                const _card = snapshot.data();
+                if (_card.title && _card.text && _card.expiration) {
+                    console.log('DateProvider:componentDidMount - Got card:', _card.title, _card);
+                }
+                cards.push(snapshot.data());
+            });
+
+            await this.asyncSetState({
+                cards,
+                cardsLoading: false
+            });
+        });
 
         /**
          * Getting available settings

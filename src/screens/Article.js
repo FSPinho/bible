@@ -4,7 +4,7 @@ import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import Markdown from 'react-native-markdown-renderer';
 import Text from "../components/Text";
 import Button from "../components/Button";
@@ -16,10 +16,12 @@ import Share from "react-native-share";
 class Article extends React.Component {
 
     async componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenArticle);
         FireBase.analytics().logEvent(Events.OpenArticle, {
-            bi_daily_schedule: this.article.author
-        })
+            bi_article_author: this.article.author,
+            bi_article_title: this.article.title,
+        });
     }
 
     get article() {

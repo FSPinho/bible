@@ -4,7 +4,7 @@ import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import {Routes} from "../navigation/RootNavigation";
 import Spacer from "../components/Spacer";
 import ListItem from "../components/ListItem";
@@ -13,8 +13,9 @@ import Loading from "../components/Loading";
 class Articles extends React.Component {
 
     componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
-        FireBase.analytics().logEvent(Events.OpenArticles)
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenArticles);
+        FireBase.analytics().logEvent(Events.OpenArticles);
     }
 
     _doOpenArticle = (article) => {

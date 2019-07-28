@@ -5,7 +5,7 @@ import withData from "../api/withData";
 import Loading from "../components/Loading";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import {Routes} from "../navigation/RootNavigation";
 import BibleData from '../resources/data/bible'
 import Text from "../components/Text";
@@ -16,10 +16,12 @@ import Touchable from "../components/Touchable";
 class Bible extends React.Component {
 
     componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
-        FireBase.analytics().logEvent(Events.OpenBible)
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
 
-        this.props.navigation.navigate(Routes.BibleBook, {book: BibleData.testments[0].books[0]})
+        FireBase.analytics().setCurrentScreen(Screens.ScreenBible);
+        FireBase.analytics().logEvent(Events.OpenBible);
+
+        this.props.navigation.navigate(Routes.BibleBook, {book: BibleData.testments[0].books[0]});
     }
 
     _doOpenBook = (book) => {

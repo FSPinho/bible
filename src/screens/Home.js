@@ -1,11 +1,11 @@
 import React from 'react'
-import {StyleSheet, Linking} from 'react-native'
+import {Linking, StyleSheet} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import Text from "../components/Text";
 import {Routes} from "../navigation/RootNavigation";
 import LineIcon from 'react-native-vector-icons/SimpleLineIcons'
@@ -15,26 +15,29 @@ import {Daily} from "../screens";
 import Phrases from "../constants/Phrases";
 import Share from 'react-native-share'
 import IconButton from "../components/IconButton";
+import Button from "../components/Button";
 
 class Home extends React.Component {
 
     async componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
-        FireBase.analytics().logEvent(Events.SessionStart)
-        FireBase.analytics().logEvent(Events.OpenHome)
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenHome);
+        FireBase.analytics().logEvent(Events.SessionStart);
+        FireBase.analytics().logEvent(Events.OpenHome);
 
         // __DEV__ && this.props.navigation.navigate(Routes.Daily)
 
-        const notificationOpen = await FireBase.notifications().getInitialNotification()
+        const notificationOpen = await FireBase.notifications().getInitialNotification();
         if (notificationOpen) {
-            const {notification} = notificationOpen
-            console.log("App opened by notification!")
-            await this._doAnalyseNotification(notification)
+            const {notification} = notificationOpen;
+            console.log("App opened by notification!");
+            await this._doAnalyseNotification(notification);
         }
 
-        this.notificationOpenedListener = FireBase.notifications().onNotificationOpened(async ({notification}) => {
-            await this._doAnalyseNotification(notification)
-        });
+        this.notificationOpenedListener = FireBase.notifications()
+            .onNotificationOpened(async ({notification}) => {
+                await this._doAnalyseNotification(notification)
+            });
     }
 
     _doSendTestNotify = async () => {
@@ -42,66 +45,126 @@ class Home extends React.Component {
             .setNotificationId('Article')
             .setTitle('História do dia!')
             .setBody("Notification body")
-            .setData({article: 'R3eQ9k4gGIQpro0XCFVQ_'})
+            .setData({article: 'R3eQ9k4gGIQpro0XCFVQ_'});
         notification
             .android.setChannelId('article')
             .android.setSmallIcon('ic_launcher');
-        FireBase.notifications().displayNotification(notification)
-    }
+        FireBase.notifications().displayNotification(notification);
+    };
 
     _doAnalyseNotification = async (notification) => {
-        console.log("Home:notificationOpenedListener - ****************************************")
-        console.log("Home:notificationOpenedListener - Notification opened...")
-        const {data} = notification
+        console.log("Home:notificationOpenedListener - ****************************************");
+        console.log("Home:notificationOpenedListener - Notification opened...");
+        const {data} = notification;
         if (data.daily) {
-            this._doOpenDaily()
+            this._doOpenDaily();
         }
         else if (data.article) {
-            this._doOpenArticle(data.article)
+            this._doOpenArticle(data.article);
         }
-        FireBase.notifications().removeAllDeliveredNotifications()
-    }
+        FireBase.notifications().removeAllDeliveredNotifications();
+    };
 
     _doOpenArticles = () => {
-        this.props.navigation.navigate(Routes.Articles)
-    }
+        this.props.navigation.navigate(Routes.Articles);
+    };
 
     _doOpenArticle = async (article) => {
-        const aRef = FireBase.firestore().collection('articles').doc(article)
-        const doc = await aRef.get()
+        const aRef = FireBase.firestore().collection('articles').doc(article);
+        const doc = await aRef.get();
 
         if(doc.exists)
-            this.props.navigation.navigate(Routes.Article, {article: doc.data()})
-    }
+            this.props.navigation.navigate(Routes.Article, {article: doc.data()});
+    };
 
     _doOpenDaily = () => {
-        this.props.navigation.navigate(Routes.Daily)
-    }
+        this.props.navigation.navigate(Routes.Daily);
+    };
 
     _doOpenBible = () => {
-        this.props.navigation.navigate(Routes.Bible)
-    }
+        this.props.navigation.navigate(Routes.Bible);
+    };
 
     _doOpenStories = () => {
-        this.props.navigation.navigate(Routes.Stories)
-    }
+        this.props.navigation.navigate(Routes.Stories);
+    };
 
     _doOpenParables = () => {
-        this.props.navigation.navigate(Routes.Parables)
-    }
+        this.props.navigation.navigate(Routes.Parables);
+    };
 
     _doOpenImageMaker = (text) => {
-        this.props.navigation.navigate(Routes.ImageMaker, {text})
-    }
+        this.props.navigation.navigate(Routes.ImageMaker, {text});
+    };
+
+    _doRenderCard = (_card) => (
+        <Box fit marginSmall paddingSmall alignStretch column paper
+             color={_card.color || this.props.theme.palette.primary}>
+
+            <Box fit paddingSmall centralize>
+                <Text size={16}
+                      color={this.props.theme.palette.primaryText}
+                      center>
+                    {_card.title}
+                </Text>
+            </Box>
+
+            <Box fit paddingSmall centralize>
+                <Text size={18}
+                      color={this.props.theme.palette.primaryText}
+                      center>
+                    {_card.text}
+                </Text>
+            </Box>
+
+            {
+                !!_card.link && (
+                    <Box fit justifyEnd>
+                        {
+                            !!_card.share && (
+                                <IconButton flat
+                                            onPress={() => {
+                                                FireBase.analytics().logEvent(Events.OpenCardToShare);
+                                                Share.open({
+                                                    url: _card.link,
+                                                    title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
+                                                });
+                                            }}>
+                                    <LineIcon
+                                        color={this.props.theme.palette.primaryText}
+                                        name={'share'}
+                                        size={24}/>
+                                </IconButton>
+                            )
+                        }
+
+                        {
+                            !!_card.linkText && (
+                                <Button flat
+                                        textColor={this.props.theme.palette.primaryText}
+                                        onPress={() => {
+                                            FireBase.analytics().logEvent(Events.OpenCardToLink);
+                                            Linking.openURL(_card.link);
+                                        }}>
+                                    {_card.linkText}
+                                </Button>
+                            )
+                        }
+                    </Box>
+                )
+            }
+
+        </Box>
+    );
 
     componentWillUnmount() {
-        FireBase.analytics().logEvent(Events.SessionEnd)
-        this.notificationOpenedListener()
+        FireBase.analytics().logEvent(Events.SessionEnd);
+        this.notificationOpenedListener();
     }
 
     render() {
-        const {data, theme} = this.props
-        const {styles} = theme
+        const {data, theme} = this.props;
+        const {styles} = theme;
 
         return (
             <Box secondary fit column>
@@ -137,6 +200,29 @@ class Home extends React.Component {
                                 </Box>
 
                             </Box>
+
+                            {
+                                data.cards.map(_card => (
+                                    _card.link ? (
+                                        <Touchable onPress={() => {
+                                            if (_card.share) {
+                                                FireBase.analytics().logEvent(Events.OpenCardToShare);
+                                                Share.open({
+                                                    url: _card.link,
+                                                    title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
+                                                });
+                                            } else {
+                                                FireBase.analytics().logEvent(Events.OpenCardToLink);
+                                                Linking.openURL(_card.link);
+                                            }
+                                        }}>
+                                            {this._doRenderCard(_card)}
+                                        </Touchable>
+                                    ) : (
+                                        this._doRenderCard(_card)
+                                    )
+                                ))
+                            }
 
                             {
                                 !!__DEV__ && false && (
@@ -260,8 +346,8 @@ class Home extends React.Component {
                                 <Box fit paper primary marginSmall>
                                     <Touchable
                                         onPress={() => {
-                                            FireBase.analytics().logEvent(Events.OpenEvaluate)
-                                            Linking.openURL('https://play.google.com/store/apps/details?id=com.cytech.paid.bible')
+                                            FireBase.analytics().logEvent(Events.OpenEvaluate);
+                                            Linking.openURL('https://play.google.com/store/apps/details?id=com.cytech.bible');
                                         }}
                                         primary>
                                         <Box padding centralize
@@ -281,11 +367,11 @@ class Home extends React.Component {
 
                                 <Box fit paper primary marginSmall>
                                     <Touchable onPress={() => {
-                                        FireBase.analytics().logEvent(Events.OpenShare)
+                                        FireBase.analytics().logEvent(Events.OpenShare);
                                         Share.open({
-                                            url: 'https://play.google.com/store/apps/details?id=com.cytech.paid.bible',
+                                            url: 'https://play.google.com/store/apps/details?id=com.cytech.bible',
                                             title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
-                                        })
+                                        });
                                     }} primary>
                                         <Box padding centralize
                                              column fit

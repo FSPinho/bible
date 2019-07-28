@@ -1,11 +1,11 @@
 import React from 'react'
-import {ImageBackground, Clipboard, Platform, Dimensions, PixelRatio} from 'react-native'
+import {ImageBackground, Clipboard, Platform, Dimensions, PixelRatio, StyleSheet} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import Markdown from 'react-native-markdown-renderer';
 import TextToSpeech from "../services/TextToSpeech";
 import RemoveMarkdown from 'remove-markdown'
@@ -15,6 +15,7 @@ import Line from "../components/Line";
 import IconButton from "../components/IconButton";
 import Alert from "../services/Alert";
 import {Routes} from "../navigation/RootNavigation";
+import DateFormat from 'dateformat';
 
 class Daily extends React.Component {
 
@@ -31,12 +32,14 @@ class Daily extends React.Component {
         await new Promise(a => this.setState({...this.state, ...state, dirty: true}, a))
 
     async componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+
+        if (!this.props.showSingleDaily) {
+            FireBase.analytics().setCurrentScreen(Screens.ScreenDaily);
+            FireBase.analytics().logEvent(Events.OpenDaily, { bi_daily_schedule: DateFormat(new Date(), 'yyyy-mm-dd') });
+        }
 
         if (this.props.data.daily) {
-            FireBase.analytics().logEvent(Events.OpenDaily, {
-                bi_daily_schedule: this.props.data.daily.schedule
-            })
             try {
                 await TextToSpeech.initialize()
                 this.setState({
@@ -54,9 +57,6 @@ class Daily extends React.Component {
 
     async componentWillReceiveProps(props) {
         if (this.props.data.daily) {
-            FireBase.analytics().logEvent(Events.OpenDaily, {
-                bi_daily_schedule: this.props.data.daily.schedule
-            })
             try {
                 await TextToSpeech.initialize()
                 this.setState({
@@ -174,11 +174,16 @@ class Daily extends React.Component {
 
                                         {
                                             daily.image &&
-                                            <ImageBackground
-                                                style={{...this._getDailyImageSize(daily)}}
-                                                source={{
-                                                    uri: this._getDailyImageURI(daily)
-                                                }}/>
+                                            <Box style={{...this._getDailyImageSize(daily)}}>
+                                                <Box fitAbsolute centralize secondary>
+                                                    <Text>Carregando Imagem...</Text>
+                                                </Box>
+                                                <ImageBackground
+                                                    style={{...StyleSheet.absoluteFillObject}}
+                                                    source={{
+                                                        uri: this._getDailyImageURI(daily)
+                                                    }}/>
+                                            </Box>
                                         }
 
                                         {
@@ -227,12 +232,17 @@ class Daily extends React.Component {
                                         {!!d.image && <Line/>}
 
                                         {
-                                            !!d.image &&
-                                            <ImageBackground
-                                                style={{...this._getDailyImageSize(d)}}
-                                                source={{
-                                                    uri: this._getDailyImageURI(d)
-                                                }}/>
+                                            d.image &&
+                                            <Box style={{...this._getDailyImageSize(d)}}>
+                                                <Box fitAbsolute centralize secondary>
+                                                    <Text>Carregando Imagem...</Text>
+                                                </Box>
+                                                <ImageBackground
+                                                    style={{...StyleSheet.absoluteFillObject}}
+                                                    source={{
+                                                        uri: this._getDailyImageURI(d)
+                                                    }}/>
+                                            </Box>
                                         }
 
                                         <Box fit paddingSmall marginSmall>

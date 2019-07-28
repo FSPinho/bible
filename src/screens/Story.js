@@ -5,7 +5,7 @@ import withData from "../api/withData";
 import Loading from "../components/Loading";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import Text from "../components/Text";
 import {Routes} from "../navigation/RootNavigation";
 import Touchable from "../components/Touchable";
@@ -15,7 +15,8 @@ import StoriesData from '../resources/data/stories'
 class Story extends React.Component {
 
     componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenStory);
         FireBase.analytics().logEvent(Events.OpenStory, {
             bi_story_title: this.story.title
         })

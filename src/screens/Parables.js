@@ -4,7 +4,7 @@ import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import {Routes} from "../navigation/RootNavigation";
 import Spacer from "../components/Spacer";
 import ParablesData from '../resources/data/parables'
@@ -13,8 +13,9 @@ import ListItem from "../components/ListItem";
 class Parables extends React.Component {
 
     componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
-        FireBase.analytics().logEvent(Events.OpenParables)
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenParables);
+        FireBase.analytics().logEvent(Events.OpenParables);
 
         // this.props.navigation.navigate(Routes.About)
     }

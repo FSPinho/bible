@@ -4,7 +4,7 @@ import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import {Routes} from "../navigation/RootNavigation";
 import Spacer from "../components/Spacer";
 import StoriesData from '../resources/data/stories'
@@ -13,7 +13,8 @@ import ListItem from "../components/ListItem";
 class Stories extends React.Component {
 
     componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+        FireBase.analytics().setCurrentScreen(Screens.ScreenStories);
         FireBase.analytics().logEvent(Events.OpenStories)
 
         // this.props.navigation.navigate(Routes.About)

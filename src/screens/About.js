@@ -4,8 +4,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Box} from '../components';
 import Button from '../components/Button';
 import {withTheme} from '../theme';
+import FireBase from "react-native-firebase";
+import {Screens} from "../constants/Analytics";
 
 class About extends React.Component {
+
+    componentDidMount() {
+        FireBase.analytics().setCurrentScreen(Screens.ScreenAbout);
+    }
 
     render() {
 

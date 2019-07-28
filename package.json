@@ -6,6 +6,8 @@
     "start": "fuser -k 8081/tcp ; node node_modules/react-native/local-cli/cli.js start",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
+    "start-firebase-debug": "adb shell setprop debug.firebase.analytics.app com.cytech.bible",
+    "stop-firebase-debug": "adb shell setprop debug.firebase.analytics.app .none.",
     "test": "jest"
   },
   "dependencies": {

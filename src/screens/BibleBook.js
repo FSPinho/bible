@@ -4,7 +4,7 @@ import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Box from "../components/Box";
 import FireBase from 'react-native-firebase'
-import {Events} from "../constants/Analytics";
+import {Events, Screens} from "../constants/Analytics";
 import Text from "../components/Text";
 import Line from "../components/Line";
 import Spacer from "../components/Spacer";
@@ -17,25 +17,25 @@ import {Alert} from '../services'
 class BibleBookChapterInner extends React.PureComponent {
 
     _doCopyToClipBoard = () => {
-        const {chapter} = this.props
-        let copy = ""
+        const {chapter} = this.props;
+        let copy = "";
 
         chapter.versicles.map(v => {
             copy += `(${v.index}) ${v.title} `
-        })
+        });
 
-        copy += `\n\n - ${chapter.title}, capítulo ${chapter.index}.`
+        copy += `\n\n - ${chapter.title}, capítulo ${chapter.index}.`;
 
-        Clipboard.setString(copy)
-        Alert.showText("Capítulo copiado!")
-    }
+        Clipboard.setString(copy);
+        Alert.showText("Capítulo copiado!");
+    };
 
     _renderVersicles = () => {
-        const {chapter: c, canPlay, onPlayPress, playing, playingPartIndex} = this.props
+        const {chapter: c, canPlay, onPlayPress, playing, playingPartIndex} = this.props;
 
-        let partsIndex = 0
-        let partsLength = 0
-        let parts = [[]]
+        let partsIndex = 0;
+        let partsLength = 0;
+        let parts = [[]];
         c.versicles.map((v, i) => {
             partsLength += v.title.length
 
@@ -173,8 +173,10 @@ class BibleBook extends React.Component {
     }
 
     async componentDidMount() {
-        console.log("Home:componentDidMount - Sending current screen to analytics...")
-        FireBase.analytics().logEvent(Events.OpenBibleBook)
+        console.log("Home:componentDidMount - Sending current screen to analytics...");
+
+        FireBase.analytics().setCurrentScreen(Screens.ScreenBibleBook);
+        FireBase.analytics().logEvent(Events.OpenBibleBook, { bi_bible_book_title: this.book.title });
 
         try {
             await TextToSpeech.initialize()

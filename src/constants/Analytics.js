@@ -9,12 +9,14 @@ export const Events = {
     OpenStories: 'bi_navigate_stories',
     OpenStory: 'bi_navigate_story',
     OpenParables: 'bi_navigate_parables',
-    OpenParable: 'bi_navigate_parables',
+    OpenParable: 'bi_navigate_parable',
     OpenArticles: 'bi_navigate_articles',
     OpenArticle: 'bi_navigate_article',
 
     OpenShare: 'bi_navigate_share',
     OpenEvaluate: 'bi_navigate_evaluate',
+    OpenCardToShare: 'bi_navigate_open_card_to_share',
+    OpenCardToLink: 'bi_navigate_open_card_link',
 
     /**
      * Auth and sessions
@@ -34,4 +36,18 @@ export const Events = {
     GeneralBannerClicked: 'bi_general_banner_clicked',
     PlayChapter: 'bi_play_chapter',
     PlayDaily: 'bi_play_daily',
-}
+};
+
+export const Screens = {
+    ScreenHome: 'bi_screen_home',
+    ScreenDaily: 'bi_screen_daily',
+    ScreenBible: 'bi_screen_bible',
+    ScreenBibleBook: 'bi_screen_bible_book',
+    ScreenArticles: 'bi_screen_articles',
+    ScreenArticle: 'bi_screen_article',
+    ScreenStories: 'bi_screen_stories',
+    ScreenStory: 'bi_screen_story',
+    ScreenParables: 'bi_screen_parables',
+    ScreenParable: 'bi_screen_parable',
+    ScreenAbout: 'bi_screen_about',
+};
