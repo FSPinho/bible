@@ -99,6 +99,7 @@ class Home extends React.Component {
 
     _doRenderCard = (_card) => (
         <Box fit marginSmall paddingSmall alignStretch column paper
+             key={_card.title}
              color={_card.color || this.props.theme.palette.primary}>
 
             <Box fit paddingSmall centralize>
@@ -202,9 +203,9 @@ class Home extends React.Component {
                             </Box>
 
                             {
-                                data.cards.map(_card => (
+                                data.cards.map((_card, _i) => (
                                     _card.link ? (
-                                        <Touchable onPress={() => {
+                                        <Touchable key={_i} onPress={() => {
                                             if (_card.share) {
                                                 FireBase.analytics().logEvent(Events.OpenCardToShare);
                                                 Share.open({
