@@ -89,12 +89,17 @@ class Quiz extends React.Component {
                         {!currentQuestion && <FadeFromDown visible={!currentQuestion}>
                             <Box paper primary marginSmall alignStretch column>
                                 <Box column paddingSmall alignStretch>
-                                    <Box paddingSmall centralize>
+                                    <Box paddingSmall centralize column>
                                         <Text size={24}
                                               color={currentEarned < 4 ? theme.palette.error
                                                   : currentEarned < 7 ? theme.palette.warn
                                                       : theme.palette.primary}
-                                              center>Sua nota foi {currentEarned}!</Text>
+                                              center>{this.state.pointsEarned} acertos!</Text>
+                                          <Text size={24}
+                                          color={currentEarned < 4 ? theme.palette.error
+                                              : currentEarned < 7 ? theme.palette.warn
+                                                  : theme.palette.primary}
+                                          center>Sua nota foi {currentEarned}!</Text>
                                     </Box>
                                     <Box alignCenter justifyEnd marginSmall>
                                         <Button onPress={this._doRestart} primary>

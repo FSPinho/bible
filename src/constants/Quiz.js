@@ -491,7 +491,7 @@ const QUESTIONS_GREETINGS_MIDDLE = [
 
 const QUESTIONS_GREETINGS_END = [
     {
-        "text": "Que Deus te abençoe! Vamos ver quantas você acertou...",
+        "text": "Que Deus te abençoe! Vamos ver a sua nota...",
         "is_greeting": true,
         "is_final": true,
     },
