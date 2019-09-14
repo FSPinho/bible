@@ -6,7 +6,7 @@ import Loading from './Loading'
 import Button from './Button'
 import IconButton from './IconButton'
 import ListItem from './ListItem'
-import FadeFromDown from './FadeFronDown'
+import FadeFromDown from './FadeFromDown'
 import SnowWrapper from './Snow'
 
 export {

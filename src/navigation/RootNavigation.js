@@ -4,6 +4,7 @@ import {createStackNavigator} from "react-navigation";
 import {Home, Daily, ImageMaker, Bible, BibleBook, About, Stories, Story, Parables, Parable, Articles, Article} from "../screens";
 import Header from "./Header";
 import HeaderTitle from "./HeaderTitle";
+import Quiz from "../screens/Quiz";
 
 export const Routes = {
     Home: 'HOME',
@@ -18,6 +19,7 @@ export const Routes = {
     Parable: 'PARABLE',
     Articles: 'ARTICLES',
     Article: 'ARTICLE',
+    Quiz: 'QUIZ',
 }
 
 class RootNavigation extends Component {
@@ -87,6 +89,12 @@ class RootNavigation extends Component {
                 screen: Article,
                 navigationOptions: ({navigation}) => ({
                     headerTitle: <HeaderTitle text={navigation.getParam('article').title}/>, ...stackOptions
+                })
+            },
+            [Routes.Quiz]: {
+                screen: Quiz,
+                navigationOptions: ({}) => ({
+                    headerTitle: <HeaderTitle text={'Quiz'}/>, ...stackOptions
                 })
             },
         }, {navigationOptions: stackOptions})

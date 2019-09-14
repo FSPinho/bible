@@ -26,6 +26,10 @@ export default {
         backgroundSecondaryTextSecondary: Palette.Indigo50TextSecondary,
         backgroundSecondaryTextDisabled: Palette.Indigo50TextDisabled,
 
+        warn: Palette.Orange500,
+        error: Palette.Red500,
+        success: Palette.Green500,
+
         statusBar: Palette.Gray100,
         statusBarStyle: 'dark-content',
     },

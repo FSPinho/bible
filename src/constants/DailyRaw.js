@@ -150,10 +150,6 @@ export const DAILY = [
         "schedule": "2018-12-02",
         "notification": "Oração contra a tristeza"
     }, {
-        "data": "# Oração para começar bem o mês.\\nSenhor Deus, estamos iniciando o último mês do ano,\\nmês do nascimento do teu filho, um mês santo.\\nQue abençoado seja este mês, e que abençoada seja minha família.\\nTraz para mim muita paz e alegria, mantém os inimigos longe, e os amigos mais perto.\\nToda festa e alegria deste mês é em Tua honra,\\nObrigado meu Deus.",
-        "schedule": "2018-12-01",
-        "notification": "# Oração para começar bem o mês."
-    }, {
         "data": "# Oração do novo dia.\\nHoje eu serei uma nova pessoa. Hoje me sinto mais forte para lutar cada batalha.\\nMe envolve, Senhor, com a tua paz e com a certeza, de que o dia de hoje será melhor.\\nHoje não temerei nenhum desafio, pois tu me guias, tu me proteges, tu me guardas.\\nHoje me sinto mais feliz, e mais contente, porque Tu estás comigo.\\nSenhor, segue comigo neste dia!",
         "schedule": "2018-11-26",
         "notification": "# Oração do novo dia"

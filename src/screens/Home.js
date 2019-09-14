@@ -97,6 +97,11 @@ class Home extends React.Component {
         this.props.navigation.navigate(Routes.ImageMaker, {text});
     };
 
+    _doOpenQuiz = () => {
+        console.log('Opening Quiz...');
+        this.props.navigation.navigate(Routes.Quiz);
+    };
+
     _doRenderCard = (_card) => (
         <Box fit marginSmall paddingSmall alignStretch column paper
              key={_card.title}
@@ -245,6 +250,25 @@ class Home extends React.Component {
                                     </Box>
                                 )
                             }
+
+                            <Box>
+                                <Box fit paper primary marginSmall>
+                                    <Touchable onPress={this._doOpenQuiz} primary>
+                                        <Box padding centralize
+                                             column fit
+                                             style={styles.cardMedia}>
+                                            <Spacer vertical large/>
+                                            <LineIcon size={72} color={theme.palette.primary}
+                                                      name={'bubbles'}/>
+                                            <Spacer vertical/>
+                                            <Text size={20} color={theme.palette.primary} center>
+                                                Quiz Bíblico
+                                            </Text>
+                                            <Spacer vertical large/>
+                                        </Box>
+                                    </Touchable>
+                                </Box>
+                            </Box>
 
                             <Daily showSingleDaily navigation={this.props.navigation}/>
 

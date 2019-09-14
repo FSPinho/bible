@@ -101,8 +101,8 @@ android {
         applicationId "com.cytech.bible"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "1.4.4"
+        versionCode 20
+        versionName "1.4.5"
         ndk.abiFilters 'armeabi-v7a','arm64-v8a','x86','x86_64'
         ndk {
             abiFilters "armeabi-v7a", "x86"
