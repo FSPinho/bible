@@ -221,8 +221,8 @@ export const QUESTIONS = [
     },
     {
         "text": "Qual capítulo está no \"meio\" da Bíblia (Há 594 capítulos antes e depois dele)?",
-        "level": null,
-        "answer": null,
+        "level": 3,
+        "answer": 1,
         "1": "Salmo 118",
         "2": "Salmo 1",
         "3": "Salmo 52",
