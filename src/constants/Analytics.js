@@ -39,7 +39,12 @@ export const Events = {
     PlayDaily: 'bi_play_daily',
     AnswerQuestion: 'bi_answer_question',
     StartQuiz: 'bi_start_quiz',
+    StartQuizAgain: 'bi_start_quiz_again',
     FinishQuiz: 'bi_finish_quiz',
+    VideoAdLoaded: 'bi_video_ad_loaded',
+    VideoAdLoadedError: 'bi_video_ad_loaded_error',
+    VideoAdShown: 'bi_video_ad_shown',
+    VideoAdShownComplete: 'bi_video_ad_shown_complete',
 };
 
 export const Screens = {
