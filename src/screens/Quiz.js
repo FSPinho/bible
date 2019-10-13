@@ -33,24 +33,6 @@ class Quiz extends React.Component {
         console.log("Home:componentDidMount - Sending current screen to analytics...")
         FireBase.analytics().setCurrentScreen(Screens.ScreenQuiz)
         FireBase.analytics().logEvent(Events.StartQuiz)
-
-        this.ad = FireBase.admob().rewarded(__DEV__ ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-5594222713152935/5209291005');
-        this.ad.loadAd();
-
-        this.ad.on('onAdLoaded', () => {
-            FireBase.analytics().logEvent(Events.VideoAdLoaded)
-            console.log(' ---------------- Advert ready to show.');
-        });
-
-        this.ad.on('onAdFailedToLoad', () => {
-            FireBase.analytics().logEvent(Events.VideoAdLoadedError)
-            console.log(' ---------------- FAIL.');
-        });
-
-        this.ad.on('onRewarded', (event) => {
-            FireBase.analytics().logEvent(Events.VideoAdShownComplete)
-            console.log(' ---------------- The user watched the entire video and will now be rewarded!', event);
-        });
     }
 
     _doNext = () => {
@@ -72,15 +54,6 @@ class Quiz extends React.Component {
 
     _doRestart = () => {
         FireBase.analytics().logEvent(Events.StartQuizAgain)
-
-        console.log('[DEBUG] --- Checking ad...', this.ad, this.ad.isLoaded());
-        if (this.ad && this.ad.isLoaded()) {
-            this.ad.show();
-            FireBase.analytics().logEvent(Events.VideoAdShown)
-        }
-
-        this.ad.loadAd();
-
         this._doRestartState();
     }
 

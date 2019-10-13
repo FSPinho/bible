@@ -3,8 +3,9 @@
   "version": "0.0.2",
   "private": true,
   "scripts": {
-    "start": "fuser -k 8081/tcp ; node node_modules/react-native/local-cli/cli.js start",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "a": "yarn android",
+    "android": "fuser -k 8081/tcp ; node node_modules/react-native/local-cli/cli.js run-android ; node node_modules/react-native/local-cli/cli.js start",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
     "release": "node node_modules/react-native/local-cli/cli.js run-android --variant=release",
     "start-firebase-debug": "adb shell setprop debug.firebase.analytics.app com.cytech.bible",
     "stop-firebase-debug": "adb shell setprop debug.firebase.analytics.app .none.",

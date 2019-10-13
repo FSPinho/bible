@@ -129,9 +129,7 @@ export default class App extends Component {
         return (
             <ThemeProvider>
                 <DataProvider>
-                    <Snow>
-                        <RootNavigation/>
-                    </Snow>
+                    <RootNavigation/>
                 </DataProvider>
             </ThemeProvider>
         );
