@@ -4,26 +4,26 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import cl.json.ShareApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.cytech.bible.BuildConfig;
 import com.facebook.react.ReactApplication;
-import fr.greweb.reactnativeviewshot.RNViewShotPackage;
-import cl.json.RNSharePackage;
-import com.pilloxa.backgroundjob.BackgroundJobPackage;
-import net.no_mad.tts.TextToSpeechPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.pilloxa.backgroundjob.BackgroundJobPackage;
+
+import net.no_mad.tts.TextToSpeechPackage;
 
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
+import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
