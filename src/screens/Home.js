@@ -208,7 +208,7 @@ class Home extends React.Component {
                             </Box>
 
                             {
-                                data.cards.map((_card, _i) => (
+                                data.cards.filter(c => c.pro).map((_card, _i) => (
                                     _card.link ? (
                                         <Touchable key={_i} onPress={() => {
                                             if (_card.share) {

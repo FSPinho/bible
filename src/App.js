@@ -66,6 +66,13 @@ export default class App extends Component {
 
     async componentDidMount() {
         /**
+         * Hiding splash screen
+         * */
+        setTimeout(() => {
+            SplashScreen.hide()
+        }, 1800)
+
+        /**
          * Initialize Firebase Notifications
          * */
         const enabled = await FireBase.messaging().hasPermission();
@@ -111,11 +118,6 @@ export default class App extends Component {
 
         /** Initializing speech */
         TextToSpeech.initialize()
-
-        /**
-         * Hiding splash screen
-         * */
-        setTimeout(SplashScreen.hide, 1800)
     }
 
     componentWillUnmount() {
