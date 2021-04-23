@@ -10,8 +10,25 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-firebase/app": "^6.4.0",
+    "dateformat": "^3.0.3",
+    "hoist-non-react-statics": "^3.3.2",
+    "i18n-js": "^3.5.1",
+    "immer": "^6.0.3",
+    "prop-types": "^15.7.2",
     "react": "16.11.0",
-    "react-native": "0.62.2"
+    "react-native": "0.62.2",
+    "react-native-markdown-renderer": "^3.2.8",
+    "react-native-share": "^3.2.0",
+    "react-native-simple-markdown": "^1.1.0",
+    "react-native-simple-toast": "^1.1.0",
+    "react-native-splash-screen": "^3.2.0",
+    "react-native-tts": "^3.1.1",
+    "react-native-typography": "^1.4.1",
+    "react-native-vector-icons": "^6.6.0",
+    "react-native-view-shot": "^3.1.2",
+    "react-navigation": "^4.3.7",
+    "remove-markdown": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
