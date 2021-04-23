@@ -4,61 +4,66 @@ import FireBase from 'react-native-firebase'
 import RootNavigation from "./navigation/RootNavigation";
 import DataProvider from "./api/DataProvider";
 import SplashScreen from 'react-native-splash-screen'
-import Snow from "./components/Snow";
 import TextToSpeech from "./services/TextToSpeech";
 import AsyncStorage from 'redux-persist-filesystem-storage'
 import DateFormat from 'dateformat'
 import BackgroundJob from 'react-native-background-job';
+import {LoginProvider} from './api';
+import Snow from "./components/Snow";
 
 const backgroundJob = {
     jobKey: "check-for-notifications",
     job: async () => {
-        console.log("BackgroundJob:job - Checking FireBase for new daily")
-
-        const date = DateFormat(new Date(), 'dd-mm-yyyy')
-
-        let existing = false
-
         try {
-            existing = await AsyncStorage.getItem("bi:" + date)
-        } catch (e) {
-        }
+            console.log("BackgroundJob:job - Checking FireBase for new daily")
 
-        if (existing) {
-            console.log("BackgroundJob:job - Skipping notification...")
-        } else {
-            await AsyncStorage.setItem("bi:" + date, 'true')
+            const date = DateFormat(new Date(), 'dd-mm-yyyy')
 
-            console.log("BackgroundJob:job - Checking FireBase for:", date)
+            let existing = false
 
-            const dailyRef = FireBase.firestore().collection('daily').where('schedule', '==', date).limit(1)
+            try {
+                existing = await AsyncStorage.getItem("bi:" + date)
+            } catch (e) {
+            }
 
-            const querySnapshot = await dailyRef.get()
-            querySnapshot.forEach(async snapshot => {
-                const daily = snapshot.data()
-                console.log("BackgroundJob:job - Got daily:", daily.schedule)
+            if (existing) {
+                console.log("BackgroundJob:job - Skipping notification...")
+            } else {
+                await AsyncStorage.setItem("bi:" + date, 'true')
 
-                const notification = new FireBase.notifications.Notification()
-                    .setNotificationId('daily')
-                    .setTitle('Oração do dia!')
-                    .setBody(daily.notification)
-                    .setData({
-                        daily: true,
-                    });
-                notification
-                    .android.setChannelId('daily')
-                    .android.setSmallIcon('ic_launcher');
-                FireBase.notifications().displayNotification(notification)
-            })
+                console.log("BackgroundJob:job - Checking FireBase for:", date)
+
+                const dailyRef = FireBase.firestore().collection('daily').where('schedule', '==', date).limit(1)
+
+                const querySnapshot = await dailyRef.get()
+                querySnapshot.forEach(async snapshot => {
+                    const daily = snapshot.data()
+                    console.log("BackgroundJob:job - Got daily:", daily.schedule)
+
+                    const notification = new FireBase.notifications.Notification()
+                        .setNotificationId('daily')
+                        .setTitle('Oração do dia!')
+                        .setBody(daily.notification)
+                        .setData({
+                            daily: true,
+                        });
+                    notification
+                        .android.setChannelId('daily')
+                        .android.setSmallIcon('ic_launcher');
+                    FireBase.notifications().displayNotification(notification)
+                })
+            }
+        } catch (error) {
+            /** ... */
         }
     }
 };
 
-BackgroundJob.register(backgroundJob);
-BackgroundJob.schedule({
-    jobKey: "check-for-notifications",
-    allowExecutionInForeground: true
-});
+// BackgroundJob.register(backgroundJob);
+// BackgroundJob.schedule({
+//     jobKey: "check-for-notifications",
+//     allowExecutionInForeground: true
+// });
 
 console.disableYellowBox = true;
 
@@ -128,11 +133,13 @@ export default class App extends Component {
     render() {
         return (
             <ThemeProvider>
-                <DataProvider>
-                    <Snow>
-                        <RootNavigation/>
-                    </Snow>
-                </DataProvider>
+                <LoginProvider>
+                    <DataProvider>
+                        <Snow>
+                            <RootNavigation/>
+                        </Snow>
+                    </DataProvider>
+                </LoginProvider>
             </ThemeProvider>
         );
     }

@@ -32,6 +32,8 @@ import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
+import com.airbnb.android.react.lottie.LottiePackage;
+
 public class MainApplication extends Application implements ReactApplication, ShareApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -58,7 +60,8 @@ public class MainApplication extends Application implements ReactApplication, Sh
                     new RNFirebaseNotificationsPackage(),
                     new RNFirebaseFirestorePackage(),
                     new RNFirebaseAdMobPackage(),
-                    new BackgroundJobPackage()
+                    new BackgroundJobPackage(),
+                    new LottiePackage()
             );
         }
 

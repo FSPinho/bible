@@ -10,6 +10,7 @@ import Parables from './Parables'
 import Parable from './Parable'
 import Articles from './Articles'
 import Article from './Article'
+import Feed from './Feed'
 
 export {
     Home,
@@ -23,5 +24,6 @@ export {
     Parables,
     Parable,
     Articles,
-    Article
+    Article,
+    Feed
 }

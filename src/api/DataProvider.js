@@ -33,6 +33,8 @@ class DataProvider extends Component {
                 canShowAds: false,
             },
             settingsLoading: false,
+
+            posts: [],
         }
 
         this.unsubscribers = {}

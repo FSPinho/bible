@@ -15,7 +15,6 @@ import {Daily} from "../screens";
 import Phrases from "../constants/Phrases";
 import Share from 'react-native-share'
 import IconButton from "../components/IconButton";
-import Button from "../components/Button";
 
 class Home extends React.Component {
 
@@ -102,67 +101,6 @@ class Home extends React.Component {
         this.props.navigation.navigate(Routes.Quiz);
     };
 
-    _doRenderCard = (_card) => (
-        <Box fit marginSmall paddingSmall alignStretch column paper
-             key={_card.title}
-             color={_card.color || this.props.theme.palette.primary}>
-
-            <Box fit paddingSmall centralize>
-                <Text size={16}
-                      color={this.props.theme.palette.primaryText}
-                      center>
-                    {_card.title}
-                </Text>
-            </Box>
-
-            <Box fit paddingSmall centralize>
-                <Text size={18}
-                      color={this.props.theme.palette.primaryText}
-                      center>
-                    {_card.text}
-                </Text>
-            </Box>
-
-            {
-                !!_card.link && (
-                    <Box fit justifyEnd>
-                        {
-                            !!_card.share && (
-                                <IconButton flat
-                                            onPress={() => {
-                                                FireBase.analytics().logEvent(Events.OpenCardToShare);
-                                                Share.open({
-                                                    url: _card.link,
-                                                    title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
-                                                });
-                                            }}>
-                                    <LineIcon
-                                        color={this.props.theme.palette.primaryText}
-                                        name={'share'}
-                                        size={24}/>
-                                </IconButton>
-                            )
-                        }
-
-                        {
-                            !!_card.linkText && (
-                                <Button flat
-                                        textColor={this.props.theme.palette.primaryText}
-                                        onPress={() => {
-                                            FireBase.analytics().logEvent(Events.OpenCardToLink);
-                                            Linking.openURL(_card.link);
-                                        }}>
-                                    {_card.linkText}
-                                </Button>
-                            )
-                        }
-                    </Box>
-                )
-            }
-
-        </Box>
-    );
-
     componentWillUnmount() {
         FireBase.analytics().logEvent(Events.SessionEnd);
         this.notificationOpenedListener();
@@ -173,22 +111,22 @@ class Home extends React.Component {
         const {styles} = theme;
 
         return (
-            <Box secondary fit column>
+            <Box primary fit column>
                 <Loading active={data.dailyLoading || data.settingsLoading || data.articlesLoading} size={56}>
                     <Box scroll>
-                        <Box column fit paddingSmall>
+                        <Box column fit>
 
-                            <Box fit marginSmall paddingSmall alignStretch column paper primary>
+                            <Box fit paddingSmall alignCenter>
+                                <Spacer large/>
+                                <Spacer large/>
+                                <Spacer/>
 
-                                <Box fit paddingSmall centralize>
+                                <Box fit paddingSmall alignStretch column>
                                     <Text size={16}
-                                          color={theme.palette.backgroundPrimaryTextDisabled}
+                                          color={theme.palette.backgroundPrimaryTextSecondary}
                                           center>
                                         Frase do dia
                                     </Text>
-                                </Box>
-
-                                <Box fit paddingSmall centralize>
                                     <Text size={18}
                                           color={theme.palette.primary}
                                           center>
@@ -196,7 +134,11 @@ class Home extends React.Component {
                                     </Text>
                                 </Box>
 
-                                <Box fit justifyEnd>
+                                <Spacer large/>
+                                <Spacer large/>
+                                <Spacer/>
+
+                                <Box fitAbsolute alignCenter justifyEnd paddingSmall>
                                     <IconButton flat onPress={() => this._doOpenImageMaker(Phrases.getTodaySPhrase())}>
                                         <LineIcon
                                             color={theme.palette.backgroundPrimaryText}
@@ -207,52 +149,54 @@ class Home extends React.Component {
 
                             </Box>
 
+                            <Spacer vertical />
+
                             {
-                                data.cards.map((_card, _i) => (
-                                    _card.link ? (
-                                        <Touchable key={_i} onPress={() => {
-                                            if (_card.share) {
-                                                FireBase.analytics().logEvent(Events.OpenCardToShare);
+                                data.cards.map((_card) => (
+                                    <Box fit paddingSmall alignCenter>
+                                        <Spacer large/>
+                                        <Spacer large/>
+                                        <Spacer/>
+
+                                        <Box fit paddingSmall alignStretch column>
+                                            <Text size={18}
+                                                  color={theme.palette.primary}
+                                                  center>
+                                                {_card.text}
+                                            </Text>
+                                        </Box>
+
+                                        <Spacer large/>
+                                        <Spacer large/>
+                                        <Spacer/>
+
+                                        <Box fitAbsolute alignCenter justifyEnd paddingSmall>
+                                            <IconButton flat onPress={() => {
+                                                FireBase.analytics().logEvent(Events.OpenShare);
                                                 Share.open({
-                                                    url: _card.link,
+                                                    url: 'https://play.google.com/store/apps/details?id=com.cytech.bible',
                                                     title: 'Receba mensagens e orações diárias, e acesse a Bíblia Sagrada em áudio e texto'
                                                 });
-                                            } else {
-                                                FireBase.analytics().logEvent(Events.OpenCardToLink);
-                                                Linking.openURL(_card.link);
-                                            }
-                                        }}>
-                                            {this._doRenderCard(_card)}
-                                        </Touchable>
-                                    ) : (
-                                        this._doRenderCard(_card)
-                                    )
+                                            }}>
+                                                <LineIcon
+                                                    color={theme.palette.backgroundPrimaryText}
+                                                    name={'share'}
+                                                    size={24}/>
+                                            </IconButton>
+                                        </Box>
+
+                                    </Box>
                                 ))
                             }
 
-                            {
-                                !!__DEV__ && false && (
-                                    <Box fit paper primary marginSmall>
-                                        <Touchable onPress={this._doSendTestNotify} primary>
-                                            <Box padding centralize
-                                                 column fit
-                                                 style={styles.cardMedia}>
-                                                <Spacer vertical large/>
-                                                <LineIcon size={72} color={theme.palette.primary}
-                                                          name={'bell'}/>
-                                                <Spacer vertical/>
-                                                <Text size={20} color={theme.palette.primary} center>
-                                                    Test notify
-                                                </Text>
-                                                <Spacer vertical large/>
-                                            </Box>
-                                        </Touchable>
-                                    </Box>
-                                )
-                            }
+                            {!!data.cards.length && (
+                                <Spacer vertical large/>
+                            )}
+
+                            <Daily showSingleDaily navigation={this.props.navigation}/>
 
                             <Box>
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={this._doOpenQuiz} primary>
                                         <Box padding centralize
                                              column fit
@@ -268,12 +212,8 @@ class Home extends React.Component {
                                         </Box>
                                     </Touchable>
                                 </Box>
-                            </Box>
 
-                            <Daily showSingleDaily navigation={this.props.navigation}/>
-
-                            <Box>
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={this._doOpenDaily} primary>
                                         <Box padding centralize
                                              column fit
@@ -292,7 +232,7 @@ class Home extends React.Component {
                             </Box>
 
                             <Box>
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={this._doOpenBible} primary>
                                         <Box padding centralize
                                              column fit
@@ -311,7 +251,7 @@ class Home extends React.Component {
 
                                 {
                                     !!data.articles.length && (
-                                        <Box fit paper primary marginSmall>
+                                        <Box fit>
                                             <Touchable onPress={this._doOpenArticles} primary>
                                                 <Box padding centralize
                                                      column fit
@@ -332,7 +272,7 @@ class Home extends React.Component {
                             </Box>
 
                             <Box>
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={this._doOpenStories} primary>
                                         <Box padding centralize
                                              column fit
@@ -349,7 +289,7 @@ class Home extends React.Component {
                                     </Touchable>
                                 </Box>
 
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={this._doOpenParables} primary>
                                         <Box padding centralize
                                              column fit
@@ -368,7 +308,7 @@ class Home extends React.Component {
                             </Box>
 
                             <Box>
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable
                                         onPress={() => {
                                             FireBase.analytics().logEvent(Events.OpenEvaluate);
@@ -390,7 +330,7 @@ class Home extends React.Component {
                                     </Touchable>
                                 </Box>
 
-                                <Box fit paper primary marginSmall>
+                                <Box fit>
                                     <Touchable onPress={() => {
                                         FireBase.analytics().logEvent(Events.OpenShare);
                                         Share.open({

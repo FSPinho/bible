@@ -1,5 +1,5 @@
 import React from 'react'
-import {ImageBackground, Clipboard, Platform, Dimensions, PixelRatio, StyleSheet} from 'react-native'
+import {Clipboard, Dimensions, ImageBackground, PixelRatio, Platform, StyleSheet} from 'react-native'
 import {withTheme} from "../theme";
 import withData from "../api/withData";
 import Loading from "../components/Loading";
@@ -114,8 +114,8 @@ class Daily extends React.Component {
         const {width} = Dimensions.get('screen');
         const imageAspect = this._getDailyAspectRatio(daily);
         return {
-            width: width - 32,
-            height: (width - 32) * imageAspect.height / imageAspect.width,
+            width: width ,
+            height: width * imageAspect.height / imageAspect.width,
         }
     }
 
@@ -134,44 +134,14 @@ class Daily extends React.Component {
         const {daily, lastDaily} = data
 
         return (
-            <Box secondary fit column>
+            <Box fit column primary>
                 <Loading active={data.dailyLoading} size={56}>
                     <Box scroll>
-                        <Box column fit paddingSmall={!showSingleDaily}>
+                        <Box column fit>
 
                             {
                                 !!daily && (
-                                    <Box primary paper column style={{elevation: 2}} marginSmall>
-                                        <Box alignCenter justifySpaceBetween marginSmall>
-                                            <Box paddingSmall>
-                                                <Text>Oração de hoje</Text>
-                                            </Box>
-
-                                            <Box>
-                                                <IconButton flat onPress={() => this._doOpenImageMaker(daily)}>
-                                                    <LineIcon
-                                                        color={theme.palette.backgroundPrimaryText}
-                                                        name={'share'}
-                                                        size={24}/>
-                                                </IconButton>
-                                                <IconButton flat onPress={() => this._doCopyToClipBoard(daily)}>
-                                                    <LineIcon
-                                                        color={theme.palette.backgroundPrimaryText}
-                                                        name={'docs'}
-                                                        size={24}/>
-                                                </IconButton>
-                                                {canPlay && (
-                                                    <IconButton flat onPress={this._doPlay}>
-                                                        <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
-                                                                  name={playing ? 'volume-off' : 'volume-2'} size={24}/>
-                                                    </IconButton>
-                                                )}
-                                            </Box>
-                                        </Box>
-                                        <Line/>
-
-                                        {daily.image && <Line/>}
-
+                                    <Box column>
                                         {
                                             daily.image &&
                                             <Box style={{...this._getDailyImageSize(daily)}}>
@@ -186,78 +156,109 @@ class Daily extends React.Component {
                                             </Box>
                                         }
 
-                                        {
-                                            !!daily && (
-                                                <Box fit paddingSmall marginSmall>
-                                                    <Markdown
-                                                        style={{
-                                                            text: {
-                                                                color: theme.palette.backgroundPrimaryText,
-                                                            }
-                                                        }}>
-                                                        {daily.data.replace(/\\n/g, '\n\n')}
-                                                    </Markdown>
+                                        <Box column alignStretch paddingSmall>
+                                            <Box alignCenter justifySpaceBetween>
+                                                <Box paddingSmall>
+                                                    <Text bold size={18}>Oração de hoje</Text>
                                                 </Box>
-                                            )
-                                        }
+
+                                                <Box>
+                                                    <IconButton flat onPress={() => this._doOpenImageMaker(daily)}>
+                                                        <LineIcon
+                                                            color={theme.palette.backgroundPrimaryText}
+                                                            name={'share'}
+                                                            size={24}/>
+                                                    </IconButton>
+                                                    <IconButton flat onPress={() => this._doCopyToClipBoard(daily)}>
+                                                        <LineIcon
+                                                            color={theme.palette.backgroundPrimaryText}
+                                                            name={'docs'}
+                                                            size={24}/>
+                                                    </IconButton>
+                                                    {canPlay && (
+                                                        <IconButton flat onPress={this._doPlay}>
+                                                            <LineIcon color={this.props.theme.palette.backgroundPrimaryText}
+                                                                      name={playing ? 'volume-off' : 'volume-2'} size={24}/>
+                                                        </IconButton>
+                                                    )}
+                                                </Box>
+                                            </Box>
+
+                                            {
+                                                !!daily && (
+                                                    <Box fit paddingSmall>
+                                                        <Markdown
+                                                            style={{
+                                                                text: {
+                                                                    color: theme.palette.backgroundPrimaryText,
+                                                                }
+                                                            }}>
+                                                            {daily.data.replace(/\\n/g, '\n\n')}
+                                                        </Markdown>
+                                                    </Box>
+                                                )
+                                            }
+                                        </Box>
                                     </Box>
                                 )
                             }
 
                             {
                                 !showSingleDaily && !!lastDaily && !!lastDaily.length && lastDaily.map(d => (
-                                    <Box primary paper column style={{elevation: 2}} marginSmall key={d.schedule}>
-                                        <Box alignCenter justifySpaceBetween marginSmall>
-                                            <Box paddingSmall>
-                                                <Text>Oração do dia {d.schedule.replace(/-/g, '/')}</Text>
-                                            </Box>
+                                    <>
+                                        <Box primary column style={{elevation: 2}} key={d.schedule}>
+                                            {
+                                                d.image &&
+                                                <Box style={{...this._getDailyImageSize(d)}}>
+                                                    <Box fitAbsolute centralize secondary>
+                                                        <Text>Carregando Imagem...</Text>
+                                                    </Box>
+                                                    <ImageBackground
+                                                        style={{...StyleSheet.absoluteFillObject}}
+                                                        source={{
+                                                            uri: this._getDailyImageURI(d)
+                                                        }}/>
+                                                </Box>
+                                            }
 
-                                            <Box>
-                                                <IconButton flat onPress={() => this._doOpenImageMaker(d)}>
-                                                    <LineIcon
-                                                        color={theme.palette.backgroundPrimaryText}
-                                                        name={'share'}
-                                                        size={24}/>
-                                                </IconButton>
-                                                <IconButton flat onPress={() => this._doCopyToClipBoard(d)}>
-                                                    <LineIcon
-                                                        color={theme.palette.backgroundPrimaryText}
-                                                        name={'docs'}
-                                                        size={24}/>
-                                                </IconButton>
+                                            <Box column alignStretch paddingSmall>
+                                                <Box alignCenter justifySpaceBetween>
+                                                    <Box paddingSmall>
+                                                        <Text>Oração do dia {d.schedule.replace(/-/g, '/')}</Text>
+                                                    </Box>
+
+                                                    <Box>
+                                                        <IconButton flat onPress={() => this._doOpenImageMaker(d)}>
+                                                            <LineIcon
+                                                                color={theme.palette.backgroundPrimaryText}
+                                                                name={'share'}
+                                                                size={24}/>
+                                                        </IconButton>
+                                                        <IconButton flat onPress={() => this._doCopyToClipBoard(d)}>
+                                                            <LineIcon
+                                                                color={theme.palette.backgroundPrimaryText}
+                                                                name={'docs'}
+                                                                size={24}/>
+                                                        </IconButton>
+                                                    </Box>
+                                                </Box>
+
+                                                <Box fit paddingSmall>
+                                                    <Markdown
+                                                        style={{
+                                                            ...mdStyles,
+                                                            text: {
+                                                                ...mdStyles.text,
+                                                                color: theme.palette.backgroundPrimaryText,
+                                                            }
+                                                        }}>
+                                                        {d.data.replace(/\\n/g, '\n\n')}
+                                                    </Markdown>
+                                                </Box>
                                             </Box>
                                         </Box>
                                         <Line/>
-
-                                        {!!d.image && <Line/>}
-
-                                        {
-                                            d.image &&
-                                            <Box style={{...this._getDailyImageSize(d)}}>
-                                                <Box fitAbsolute centralize secondary>
-                                                    <Text>Carregando Imagem...</Text>
-                                                </Box>
-                                                <ImageBackground
-                                                    style={{...StyleSheet.absoluteFillObject}}
-                                                    source={{
-                                                        uri: this._getDailyImageURI(d)
-                                                    }}/>
-                                            </Box>
-                                        }
-
-                                        <Box fit paddingSmall marginSmall>
-                                            <Markdown
-                                                style={{
-                                                    ...mdStyles,
-                                                    text: {
-                                                        ...mdStyles.text,
-                                                        color: theme.palette.backgroundPrimaryText,
-                                                    }
-                                                }}>
-                                                {d.data.replace(/\\n/g, '\n\n')}
-                                            </Markdown>
-                                        </Box>
-                                    </Box>
+                                    </>
                                 ))
                             }
 

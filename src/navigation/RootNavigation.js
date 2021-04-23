@@ -1,13 +1,29 @@
 import React, {Component} from 'react'
 import {withTheme} from "../theme";
-import {createStackNavigator} from "react-navigation";
-import {Home, Daily, ImageMaker, Bible, BibleBook, About, Stories, Story, Parables, Parable, Articles, Article} from "../screens";
+import {createBottomTabNavigator, createStackNavigator} from "react-navigation";
+import {
+    About,
+    Article,
+    Articles,
+    Bible,
+    BibleBook,
+    Daily,
+    Feed,
+    Home,
+    ImageMaker,
+    Parable,
+    Parables,
+    Stories,
+    Story
+} from "../screens";
 import Header from "./Header";
 import HeaderTitle from "./HeaderTitle";
 import Quiz from "../screens/Quiz";
+import Icon from "react-native-vector-icons/SimpleLineIcons";
 
 export const Routes = {
     Home: 'HOME',
+    Feed: 'FEED',
     Daily: 'DAILY',
     ImageMaker: 'IMAGE_MAKER',
     Bible: 'BIBLE',
@@ -30,7 +46,7 @@ class RootNavigation extends Component {
             header: (props) => <Header {...props}/>
         }
 
-        this.Nav = createStackNavigator({
+        this.StackNav = createStackNavigator({
             [Routes.Home]: {
                 screen: Home,
                 navigationOptions: {
@@ -81,7 +97,7 @@ class RootNavigation extends Component {
             },
             [Routes.Articles]: {
                 screen: Articles,
-                navigationOptions:{
+                navigationOptions: {
                     headerTitle: <HeaderTitle text={'Histórias Reais'}/>, ...stackOptions
                 }
             },
@@ -97,11 +113,32 @@ class RootNavigation extends Component {
                     headerTitle: <HeaderTitle text={'Quiz'}/>, ...stackOptions
                 })
             },
-        }, {navigationOptions: stackOptions})
+        }, {navigationOptions: stackOptions});
+
+        this.TabNav = createBottomTabNavigator({
+            [Routes.Feed]: {
+                screen: Feed,
+                navigationOptions: {
+                    tabBarIcon: ({tintColor}) => <Icon color={tintColor} size={20} name={"grid"}/>
+                }
+            },
+            [Routes.Home]: {
+                screen: this.StackNav,
+                navigationOptions: {
+                    tabBarIcon: ({tintColor}) => <Icon color={tintColor} size={20} name={"home"}/>
+                }
+            }
+        }, {
+            tabBarOptions: {
+                showLabel: false,
+                activeTintColor: props.theme.palette.primary,
+                inactiveTintColor: props.theme.palette.backgroundPrimaryTextSecondary,
+            }
+        });
     }
 
     render() {
-        return (<this.Nav/>)
+        return (<this.StackNav />)
     }
 }
 
