@@ -152,8 +152,8 @@ class Home extends React.Component {
                             <Spacer vertical />
 
                             {
-                                data.cards.map((_card) => (
-                                    <Box fit paddingSmall alignCenter>
+                                data.cards.map((_card, i) => (
+                                    <Box fit paddingSmall alignCenter key={i}>
                                         <Spacer large/>
                                         <Spacer large/>
                                         <Spacer/>

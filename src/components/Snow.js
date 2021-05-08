@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableWithoutFeedback, Animated, Easing, Dimensions, Image} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {withTheme} from '../theme';
 import Box from "./Box";
 import FireBase from "react-native-firebase";
@@ -16,6 +16,25 @@ class Snow extends React.Component {
         this.state = {
             adError: false
         }
+    }
+
+    componentDidMount() {
+        setInterval(this.doShowAd, 5 * 60 * 1000);
+        setTimeout(this.doShowAd, 30);
+    }
+
+    doShowAd = () => {
+        this.ad = FireBase.admob().interstitial(__DEV__ ? "ca-app-pub-3940256099942544/1033173712" : "ca-app-pub-5594222713152935/1306502108");
+        this.ad.loadAd();
+
+        this.ad.on('onAdLoaded', () => {
+            console.log(' ---------------- Interstitial ready to show.');
+            this.ad.show()
+        });
+
+        this.ad.on('onAdFailedToLoad', () => {
+            console.log(' ---------------- Interstitial FAIL.');
+        });
     }
 
     onAdError = () => {
